@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agendar Citas - Recepcionista</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body data-page="recepcionista-citas">
+    <div class="action-layout">
+        <div class="action-frame">
+            <div class="page-header">
+                <div>
+                    <h1>Agendar Citas</h1>
+                    <p class="page-description">Programa nuevas citas y revisa la disponibilidad del día.</p>
+                </div>
+                <div class="page-actions">
+                    <a class="btn-secondary" href="/recepcionista.html">Volver al panel</a>
+                    <a class="btn-secondary" href="/logout">Cerrar sesión</a>
+                </div>
+            </div>
+
+            <div class="form-panel card-small">
+                <form id="recep-appointment-form">
+                    <label for="cita-mascota">Mascota</label>
+                    <select id="cita-mascota"></select>
+
+                    <label for="cita-fecha">Fecha</label>
+                    <input id="cita-fecha" type="date" required />
+
+                    <label for="cita-hora">Hora</label>
+                    <input id="cita-hora" type="time" required />
+
+                    <label for="cita-motivo">Motivo</label>
+                    <textarea id="cita-motivo" placeholder="Ej: Consulta de control" required></textarea>
+
+                    <button type="submit" class="btn-primary" style="margin-top: 24px; width: 100%;">Programar cita</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="/js/page-actions.js" defer></script>
+</body>
+</html>

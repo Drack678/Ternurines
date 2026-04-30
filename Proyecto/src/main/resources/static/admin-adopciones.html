@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adopciones - Administrador</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body data-page="admin-adopciones">
+    <div class="action-layout">
+        <div class="action-frame">
+            <div class="page-header">
+                <div>
+                    <h1>Gestión de Adopciones</h1>
+                    <p class="page-description">Revisar solicitudes de adopción y mantener el estado de cada trámite.</p>
+                </div>
+                <div class="page-actions">
+                    <a class="btn-secondary" href="/admin.html">Volver al panel</a>
+                    <a class="btn-secondary" href="/logout">Cerrar sesión</a>
+                </div>
+            </div>
+
+            <div class="table-panel card-small">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Adoptante</th>
+                            <th>Mascota</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-adopciones-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="/js/page-actions.js" defer></script>
+</body>
+</html>

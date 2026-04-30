@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clientes - Recepcionista</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body data-page="recepcionista-clientes">
+    <div class="action-layout">
+        <div class="action-frame">
+            <div class="page-header">
+                <div>
+                    <h1>Clientes</h1>
+                    <p class="page-description">Busca clientes y revisa sus datos de contacto y mascotas asociadas.</p>
+                </div>
+                <div class="page-actions">
+                    <a class="btn-secondary" href="/recepcionista.html">Volver al panel</a>
+                    <a class="btn-secondary" href="/logout">Cerrar sesión</a>
+                </div>
+            </div>
+
+            <div class="table-panel card-small">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Documento</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recep-clientes-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="/js/page-actions.js" defer></script>
+</body>
+</html>

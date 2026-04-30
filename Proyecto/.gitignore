@@ -1,0 +1,15 @@
+# Node
+node_modules/
+npm-debug.log*
+.vite/
+
+# Vite build output
+dist/
+
+# Spring Boot / Java
+target/
+*.class
+
+# OS files
+.DS_Store
+Thumbs.db
