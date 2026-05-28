@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrarse - Ternurines</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="login-body">
+<div class="login-card">
+    <div class="brand">
+        <div class="brand-icon">🩺</div>
+        <div>
+            <h1>Registro de cliente</h1>
+            <p>Regístrate para ver servicios, tus mascotas y agendar citas.</p>
+        </div>
+    </div>
+    <form id="registerForm" class="login-form">
+        <input name="nombre" placeholder="Nombre completo" required />
+        <input name="documento" placeholder="Documento" required />
+        <input name="telefono" placeholder="Telefono" />
+        <input name="direccion" placeholder="Direccion" />
+        <input name="correo" type="email" placeholder="Correo" required />
+        <input name="contrasena" type="password" placeholder="Contrasena" required />
+        <button type="submit">Registrarse</button>
+        <div id="registerStatus" class="form-status"></div>
+    </form>
+    <div class="login-note">
+        <a href="/">Volver al inicio</a>
+    </div>
+</div>
+<script>
+document.querySelector('#registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = Object.fromEntries(new FormData(e.target).entries());
+    const res = await fetch('/api/operaciones/usuarios/registro', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({...payload, rol: 'CLIENTE'}) });
+    const status = document.querySelector('#registerStatus');
+    if (res.ok) {
+        status.textContent = 'Registro exitoso. Ya puedes iniciar sesión.';
+        e.target.reset();
+    } else {
+        status.textContent = 'Error al registrar. Intenta nuevamente.';
+    }
+});
+</script>
+</body>
+</html>

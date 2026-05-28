@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ternurines - Panel de Veterinario</title>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">🩺</div>
+                <div>
+                    <h2>Ternurines</h2>
+                    <p>Veterinario</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Principal</div>
+                    <div class="nav-item">
+                        <a class="nav-link active" onclick="navigateTo('dashboard')">
+                            <span class="nav-icon">📊</span>
+                            <span class="nav-label">Dashboard</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Consultas</div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('citas')">
+                            <span class="nav-icon">📅</span>
+                            <span class="nav-label">Mis Citas</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('pacientes')">
+                            <span class="nav-icon">🐾</span>
+                            <span class="nav-label">Mis Pacientes</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Registros Médicos</div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('historial')">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-label">Historial Clínico</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('recetas')">
+                            <span class="nav-icon">💊</span>
+                            <span class="nav-label">Recetas Médicas</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">V</div>
+                    <div class="user-details">
+                        <h4 id="user-name">Veterinario</h4>
+                        <p id="user-email">vet@ternurines.com</p>
+                    </div>
+                </div>
+                <button class="logout-btn btn btn-sm" onclick="logout()">🚪 Cerrar sesión</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="topbar">
+                <div class="topbar-title">
+                    <h2 id="page-title">Dashboard</h2>
+                </div>
+            </div>
+
+            <div class="content" id="main-content">
+                <!-- DASHBOARD PRINCIPAL -->
+                <section id="dashboard-section" class="section-active">
+                    <div class="page-header">
+                        <h1>Bienvenido al Panel de Veterinario</h1>
+                        <p>Gestiona citas, pacientes e historiales clínicos</p>
+                    </div>
+
+                    <!-- ESTADÍSTICAS -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-icon primary">📅</div>
+                            <div class="stat-card-label">Citas Hoy</div>
+                            <div class="stat-card-value" id="stat-citas-hoy">0</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-icon secondary">🐾</div>
+                            <div class="stat-card-label">Pacientes Totales</div>
+                            <div class="stat-card-value" id="stat-pacientes">0</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-icon success">📋</div>
+                            <div class="stat-card-label">Historiales</div>
+                            <div class="stat-card-value" id="stat-historiales">0</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-icon warning">💊</div>
+                            <div class="stat-card-label">Recetas Emitidas</div>
+                            <div class="stat-card-value" id="stat-recetas">0</div>
+                        </div>
+                    </div>
+
+                    <!-- ACCIONES RÁPIDAS -->
+                    <div class="content-card">
+                        <div class="content-card-header">
+                            <h3 class="content-card-title">Acciones Rápidas</h3>
+                        </div>
+                        <div class="content-card-body">
+                            <div class="page-header-actions">
+                                <button class="btn btn-primary" onclick="navigateTo('citas'); scrollToTop()">📅 Ver Mis Citas</button>
+                                <button class="btn btn-primary" onclick="navigateTo('pacientes'); scrollToTop()">🐾 Mis Pacientes</button>
+                                <button class="btn btn-secondary" onclick="navigateTo('historial'); scrollToTop()">📚 Historiales</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PRÓXIMAS CITAS -->
+                    <div class="content-card">
+                        <div class="content-card-header">
+                            <h3 class="content-card-title">Próximas Citas</h3>
+                        </div>
+                        <div class="content-card-body">
+                            <div id="upcoming-citas" style="min-height: 200px;">
+                                <p class="text-muted">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ÚLTIMOS HISTORIALES -->
+                    <div class="content-card">
+                        <div class="content-card-header">
+                            <h3 class="content-card-title">Últimos Registros del Historial</h3>
+                        </div>
+                        <div class="content-card-body">
+                            <div id="recent-historiales" style="min-height: 200px;">
+                                <p class="text-muted">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- MIS CITAS -->
+                <section id="citas-section" class="section">
+                    <div class="page-header">
+                        <h1>Mis Citas</h1>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="citas-search" placeholder="Buscar cita...">
+                            </div>
+                            <select id="cita-status-filter" onchange="loadCitasTable()">
+                                <option value="">Todos los estados</option>
+                                <option value="Pendiente">Pendientes</option>
+                                <option value="Completada">Completadas</option>
+                                <option value="Cancelada">Canceladas</option>
+                            </select>
+                            <input type="date" id="cita-date-filter" onchange="loadCitasTable()">
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Citas Programadas</h3>
+                        </div>
+                        <div id="citas-table"></div>
+                    </div>
+                </section>
+
+                <!-- MIS PACIENTES -->
+                <section id="pacientes-section" class="section">
+                    <div class="page-header">
+                        <h1>Mis Pacientes</h1>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="pacientes-search" placeholder="Buscar paciente...">
+                            </div>
+                            <select id="pacientes-species-filter" onchange="loadPacientes()">
+                                <option value="">Todas las especies</option>
+                                <option value="perro">Perros</option>
+                                <option value="gato">Gatos</option>
+                                <option value="ave">Aves</option>
+                                <option value="conejo">Conejos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="pacientes-grid" class="grid grid-cols-3">
+                        <!-- Aquí irán las tarjetas de pacientes -->
+                    </div>
+                </section>
+
+                <!-- HISTORIAL CLÍNICO -->
+                <section id="historial-section" class="section">
+                    <div class="page-header">
+                        <h1>Historial Clínico</h1>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="historial-search" placeholder="Buscar historial...">
+                            </div>
+                            <button class="btn btn-primary" onclick="openNewHistorialModal()">+ Nuevo Registro</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2">
+                        <div class="content-card">
+                            <div class="content-card-header">
+                                <h3 class="content-card-title">Filtrar por Mascota</h3>
+                            </div>
+                            <div class="content-card-body">
+                                <select id="historial-pet-filter" onchange="loadHistorialesTable()">
+                                    <option value="">-- Todas las mascotas --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="content-card-header">
+                                <h3 class="content-card-title">Filtrar por Fecha</h3>
+                            </div>
+                            <div class="content-card-body">
+                                <input type="date" id="historial-date-filter" onchange="loadHistorialesTable()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-container" style="margin-top: 24px;">
+                        <div class="table-header">
+                            <h3 class="table-title">Registros del Historial</h3>
+                        </div>
+                        <div id="historiales-table"></div>
+                    </div>
+                </section>
+
+                <!-- RECETAS MÉDICAS -->
+                <section id="recetas-section" class="section">
+                    <div class="page-header">
+                        <h1>Recetas Médicas</h1>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="recetas-search" placeholder="Buscar receta...">
+                            </div>
+                            <select id="recetas-med-filter" onchange="loadRecetasTable()">
+                                <option value="">Todas las recetas</option>
+                                <option value="con-medicamento">Con medicamento</option>
+                                <option value="sin-medicamento">Sin medicamento</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="openNewRecetaModal()">+ Nueva Receta</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Recetas Emitidas</h3>
+                        </div>
+                        <div id="recetas-table"></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/utils.js?v=3"></script>
+    <script src="/assets/js/veterinary-dashboard.js?v=3"></script>
+</body>
+</html>

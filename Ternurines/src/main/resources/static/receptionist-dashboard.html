@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ternurines - Panel de Recepcionista</title>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">📞</div>
+                <div>
+                    <h2>Ternurines</h2>
+                    <p>Recepcionista</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Principal</div>
+                    <div class="nav-item">
+                        <a class="nav-link active" onclick="navigateTo('dashboard')">
+                            <span class="nav-icon">📊</span>
+                            <span class="nav-label">Dashboard</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Clientes</div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('usuarios')">
+                            <span class="nav-icon">👥</span>
+                            <span class="nav-label">Usuarios</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('mascotas')">
+                            <span class="nav-icon">🐾</span>
+                            <span class="nav-label">Mascotas</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Operaciones</div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('citas')">
+                            <span class="nav-icon">📅</span>
+                            <span class="nav-label">Agendar Citas</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('adopciones')">
+                            <span class="nav-icon">💕</span>
+                            <span class="nav-label">Adopciones</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('ventas')">
+                            <span class="nav-icon">💊</span>
+                            <span class="nav-label">Venta de Medicamentos</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">R</div>
+                    <div class="user-details">
+                        <h4 id="user-name">Recepcionista</h4>
+                        <p id="user-email">recep@ternurines.com</p>
+                    </div>
+                </div>
+                <button class="logout-btn btn btn-sm" onclick="logout()">🚪 Cerrar sesión</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="topbar">
+                <div class="topbar-title">
+                    <h2 id="page-title">Dashboard</h2>
+                </div>
+                <div class="topbar-actions">
+                    <div class="search-bar">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" placeholder="Buscar..." id="search-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="content" id="main-content">
+                <!-- DASHBOARD PRINCIPAL -->
+                <section id="dashboard-section" class="section-active">
+                    <div class="page-header">
+                        <h1>Bienvenido al Panel de Recepción</h1>
+                        <p>Gestiona citas, usuarios, mascotas y adopciones</p>
+                    </div>
+
+                    <!-- ESTADÍSTICAS -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-icon primary">👥</div>
+                            <div class="stat-card-label">Usuarios Registrados</div>
+                            <div class="stat-card-value" id="stat-usuarios">0</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-icon secondary">📅</div>
+                            <div class="stat-card-label">Citas Hoy</div>
+                            <div class="stat-card-value" id="stat-citas-hoy">0</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-icon success">💕</div>
+                            <div class="stat-card-label">Adopciones Este Mes</div>
+                            <div class="stat-card-value" id="stat-adopciones">0</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-icon warning">💲</div>
+                            <div class="stat-card-label">Ventas Hoy</div>
+                            <div class="stat-card-value" id="stat-ventas">$0</div>
+                        </div>
+                    </div>
+
+                    <!-- ACCIONES RÁPIDAS -->
+                    <div class="content-card">
+                        <div class="content-card-header">
+                            <h3 class="content-card-title">Acciones Rápidas</h3>
+                        </div>
+                        <div class="content-card-body">
+                            <div class="page-header-actions">
+                                <button class="btn btn-primary" onclick="navigateTo('usuarios'); scrollToTop()">+ Nuevo Usuario</button>
+                                <button class="btn btn-primary" onclick="navigateTo('mascotas'); scrollToTop()">+ Registrar Mascota</button>
+                                <button class="btn btn-primary" onclick="navigateTo('citas'); scrollToTop()">+ Agendar Cita</button>
+                                <button class="btn btn-secondary" onclick="navigateTo('ventas'); scrollToTop()">💊 Vender Medicamentos</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INFORMACIÓN DEL SISTEMA -->
+                    <div class="grid grid-cols-2">
+                        <div class="content-card">
+                            <div class="content-card-header">
+                                <h3 class="content-card-title">Próximas Citas</h3>
+                            </div>
+                            <div class="content-card-body">
+                                <div id="upcoming-appointments" style="min-height: 200px;">
+                                    <p class="text-muted">Cargando...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="content-card-header">
+                                <h3 class="content-card-title">Adopciones Pendientes</h3>
+                            </div>
+                            <div class="content-card-body">
+                                <div id="pending-adoptions" style="min-height: 200px;">
+                                    <p class="text-muted">Cargando...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- USUARIOS -->
+                <section id="usuarios-section" class="section">
+                    <div class="page-header">
+                        <h1>Gestión de Usuarios</h1>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="usuarios-search" placeholder="Buscar usuario...">
+                            </div>
+                            <select id="usuarios-role-filter" onchange="loadUsuariosTable()">
+                                <option value="">Todos los roles</option>
+                                <option value="cliente">Clientes</option>
+                                <option value="usuario">Usuarios</option>
+                                <option value="veterinario">Veterinarios</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="openNewUserModal()">+ Nuevo Usuario</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Lista de Usuarios</h3>
+                        </div>
+                        <div id="usuarios-table"></div>
+                    </div>
+                </section>
+
+                <!-- MASCOTAS -->
+                <section id="mascotas-section" class="section">
+                    <div class="page-header">
+                        <h1>Registro de Mascotas</h1>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="mascotas-search" placeholder="Buscar mascota...">
+                            </div>
+                            <select id="mascotas-species-filter" onchange="loadMascotasTable()">
+                                <option value="">Todas las especies</option>
+                                <option value="perro">Perros</option>
+                                <option value="gato">Gatos</option>
+                                <option value="ave">Aves</option>
+                                <option value="conejo">Conejos</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="openNewPetModal()">+ Registrar Mascota</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Mascotas Registradas</h3>
+                        </div>
+                        <div id="mascotas-table"></div>
+                    </div>
+                </section>
+
+                <!-- CITAS -->
+                <section id="citas-section" class="section">
+                    <div class="page-header">
+                        <h1>Agendamiento de Citas</h1>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="citas-search" placeholder="Buscar cita...">
+                            </div>
+                            <select id="status-filter" onchange="loadAppointmentsTable()">
+                                <option value="">Todos los estados</option>
+                                <option value="Pendiente">Pendientes</option>
+                                <option value="Completada">Completadas</option>
+                                <option value="Cancelada">Canceladas</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="openNewAppointmentModal()">+ Agendar Cita</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2">
+                        <div class="content-card">
+                            <div class="content-card-header">
+                                <h3 class="content-card-title">Filtrar por Veterinario</h3>
+                            </div>
+                            <div class="content-card-body">
+                                <select id="vet-filter" onchange="loadAppointmentsTable()">
+                                    <option value="">-- Todos los veterinarios --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="content-card">
+                            <div class="content-card-header">
+                                <h3 class="content-card-title">Filtrar por Fecha</h3>
+                            </div>
+                            <div class="content-card-body">
+                                <input type="date" id="date-filter" onchange="loadAppointmentsTable()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-container" style="margin-top: 24px;">
+                        <div class="table-header">
+                            <h3 class="table-title">Citas Programadas</h3>
+                        </div>
+                        <div id="citas-table"></div>
+                    </div>
+                </section>
+
+                <!-- ADOPCIONES -->
+                <section id="adopciones-section" class="section">
+                    <div class="page-header">
+                        <h1>Gestión de Adopciones</h1>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="adopciones-search" placeholder="Buscar adopción...">
+                            </div>
+                            <select id="adopciones-status-filter" onchange="loadAdopcionesTable()">
+                                <option value="">Todos los estados</option>
+                                <option value="Disponible">Disponibles</option>
+                                <option value="En proceso">En proceso</option>
+                                <option value="Adoptada">Adoptadas</option>
+                                <option value="completada">Completadas</option>
+                                <option value="pendiente">Pendientes</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="openNewAdoptionModal()">+ Registrar Adopción</button>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3 class="table-title">Adopciones Registradas</h3>
+                        </div>
+                        <div id="adopciones-table"></div>
+                    </div>
+                </section>
+
+                <!-- VENTA DE MEDICAMENTOS -->
+                <section id="ventas-section" class="section">
+                    <div class="page-header">
+                        <h1>Venta de Medicamentos</h1>
+                    </div>
+
+                    <div class="grid grid-cols-3">
+                        <div class="content-card" style="grid-column: 1 / -1;">
+                            <div class="content-card-header">
+                                <h3 class="content-card-title">Nueva Venta</h3>
+                            </div>
+                            <div class="content-card-body">
+                                <form id="sale-form" class="grid">
+                                    <div class="form-group">
+                                        <label for="sale-cliente" class="required">Cliente</label>
+                                        <input type="text" id="sale-cliente" placeholder="Nombre o cedula del cliente">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sale-medicamento" class="required">Medicamento</label>
+                                        <select id="sale-medicamento" onchange="updateMedicinePrice()">
+                                            <option value="">-- Selecciona un medicamento --</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sale-cantidad" class="required">Cantidad</label>
+                                        <input type="number" id="sale-cantidad" placeholder="1" min="1" value="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sale-precio">Precio Unitario</label>
+                                        <input type="number" id="sale-precio" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sale-total">Total</label>
+                                        <input type="number" id="sale-total" readonly>
+                                    </div>
+                                    <div class="form-actions" style="grid-column: 1 / -1;">
+                                        <button type="button" class="btn btn-secondary" onclick="resetSaleForm()">Limpiar</button>
+                                        <button type="button" class="btn btn-primary" onclick="completeSale()">Completar Venta</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="content-card" style="grid-column: 1 / -1;">
+                            <div class="content-card-header">
+                                <h3 class="content-card-title">Inventario de Medicamentos</h3>
+                            </div>
+                            <div class="content-card-body">
+                                <div class="page-header-actions">
+                                    <div class="search-bar">
+                                        <span class="search-icon">🔍</span>
+                                        <input type="text" id="inventory-search" placeholder="Buscar medicamento...">
+                                    </div>
+                                    <select id="inventory-stock-filter" onchange="loadInventoryTable()">
+                                        <option value="">Todo el stock</option>
+                                        <option value="bajo">Bajo stock</option>
+                                        <option value="medio">Stock medio</option>
+                                        <option value="disponible">Disponible</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="inventory-table"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/utils.js?v=3"></script>
+    <script src="/assets/js/receptionist-dashboard.js?v=3"></script>
+</body>
+</html>

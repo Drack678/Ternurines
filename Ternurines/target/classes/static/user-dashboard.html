@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ternurines - Mi Cuenta</title>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-icon">🐾</div>
+                <div>
+                    <h2>Ternurines</h2>
+                    <p>Mi Cuenta</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Mi Cuenta</div>
+                    <div class="nav-item">
+                        <a class="nav-link active" onclick="navigateTo('inicio')">
+                            <span class="nav-icon">🏠</span>
+                            <span class="nav-label">Inicio</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('mascotas')">
+                            <span class="nav-icon">🐾</span>
+                            <span class="nav-label">Mis Mascotas</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Registros</div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('adopciones')">
+                            <span class="nav-icon">💕</span>
+                            <span class="nav-label">Mis Adopciones</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('recetas')">
+                            <span class="nav-icon">📋</span>
+                            <span class="nav-label">Recetas Médicas</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link" onclick="navigateTo('historial')">
+                            <span class="nav-icon">📚</span>
+                            <span class="nav-label">Historial Clínico</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">U</div>
+                    <div class="user-details">
+                        <h4 id="user-name">Usuario</h4>
+                        <p id="user-email">usuario@email.com</p>
+                    </div>
+                </div>
+                <button class="logout-btn btn btn-sm" onclick="logout()">🚪 Cerrar sesión</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="topbar">
+                <div class="topbar-title">
+                    <h2 id="page-title">Bienvenido</h2>
+                </div>
+            </div>
+
+            <div class="content" id="main-content">
+                <!-- INICIO -->
+                <section id="inicio-section" class="section-active">
+                    <div class="page-header">
+                        <h1>Bienvenido a Ternurines</h1>
+                        <p>Gestiona aquí la información de tus mascotas y adopciones</p>
+                    </div>
+
+                    <!-- CARDS DE RESUMEN -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-card-icon primary">🐾</div>
+                            <div class="stat-card-label">Mis Mascotas</div>
+                            <div class="stat-card-value" id="stat-mascotas">0</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-icon secondary">💕</div>
+                            <div class="stat-card-label">Adopciones</div>
+                            <div class="stat-card-value" id="stat-adopciones">0</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-icon success">📋</div>
+                            <div class="stat-card-label">Recetas Médicas</div>
+                            <div class="stat-card-value" id="stat-recetas">0</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-card-icon warning">📅</div>
+                            <div class="stat-card-label">Citas Próximas</div>
+                            <div class="stat-card-value" id="stat-citas">0</div>
+                        </div>
+                    </div>
+
+                    <!-- ACCIONES RÁPIDAS -->
+                    <div class="content-card">
+                        <div class="content-card-header">
+                            <h3 class="content-card-title">Acciones Rápidas</h3>
+                        </div>
+                        <div class="content-card-body">
+                            <div class="page-header-actions">
+                                <button class="btn btn-primary" onclick="navigateTo('mascotas'); scrollToTop()">+ Registrar Mascota</button>
+                                <button class="btn btn-secondary" onclick="navigateTo('historial'); scrollToTop()">📚 Ver Historial</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MIS MASCOTAS RECIENTES -->
+                    <div class="content-card">
+                        <div class="content-card-header">
+                            <h3 class="content-card-title">Mis Mascotas</h3>
+                        </div>
+                        <div class="content-card-body">
+                            <div id="recent-mascotas" style="min-height: 150px;">
+                                <p class="text-muted">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PRÓXIMAS CITAS -->
+                    <div class="content-card">
+                        <div class="content-card-header">
+                            <h3 class="content-card-title">Próximas Citas</h3>
+                        </div>
+                        <div class="content-card-body">
+                            <div id="upcoming-citas" style="min-height: 150px;">
+                                <p class="text-muted">Cargando...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- MIS MASCOTAS -->
+                <section id="mascotas-section" class="section">
+                    <div class="page-header">
+                        <h1>Mis Mascotas</h1>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="mascotas-search" placeholder="Buscar mascota...">
+                            </div>
+                            <select id="mascotas-species-filter" onchange="loadUserPets()">
+                                <option value="">Todas las especies</option>
+                                <option value="perro">Perros</option>
+                                <option value="gato">Gatos</option>
+                                <option value="ave">Aves</option>
+                                <option value="conejo">Conejos</option>
+                            </select>
+                            <button class="btn btn-primary" onclick="openRegisterPetModal()">+ Registrar Nueva Mascota</button>
+                        </div>
+                    </div>
+
+                    <div id="mascotas-grid" class="grid grid-cols-3">
+                        <!-- Aquí irán las tarjetas de mascotas -->
+                    </div>
+                </section>
+
+                <!-- MIS ADOPCIONES -->
+                <section id="adopciones-section" class="section">
+                    <div class="page-header">
+                        <h1>Mis Adopciones</h1>
+                        <p>Aquí puedes ver todas las mascotas que has adoptado</p>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="adopciones-search" placeholder="Buscar adopción...">
+                            </div>
+                            <select id="adopciones-status-filter" onchange="loadUserAdoptions()">
+                                <option value="">Todos los estados</option>
+                                <option value="Adoptada">Adoptadas</option>
+                                <option value="completada">Completadas</option>
+                                <option value="pendiente">Pendientes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div id="adopciones-table"></div>
+                    </div>
+                </section>
+
+                <!-- RECETAS MÉDICAS -->
+                <section id="recetas-section" class="section">
+                    <div class="page-header">
+                        <h1>Recetas Médicas</h1>
+                        <p>Historial de medicamentos prescritos para tus mascotas</p>
+                        <div class="page-header-actions">
+                            <div class="search-bar">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="recetas-search" placeholder="Buscar receta...">
+                            </div>
+                            <select id="recetas-pet-filter" onchange="loadUserRecipes()">
+                                <option value="">Todas las mascotas</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="recetas-container" class="grid grid-cols-2">
+                        <!-- Aquí irán las recetas -->
+                    </div>
+                </section>
+
+                <!-- HISTORIAL CLÍNICO -->
+                <section id="historial-section" class="section">
+                    <div class="page-header">
+                        <h1>Historial Clínico</h1>
+                        <p>Registro completo de salud de tus mascotas</p>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="content-card-header">
+                            <h3 class="content-card-title">Selecciona una mascota para ver su historial</h3>
+                        </div>
+                        <div class="content-card-body">
+                            <div class="form-group">
+                                <label for="historial-mascota">Mascota</label>
+                                <select id="historial-mascota" onchange="loadPetHistory(this.value)">
+                                    <option value="">-- Selecciona una mascota --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="historial-timeline" style="margin-top: 24px;">
+                        <!-- Aquí irá el historial -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/utils.js?v=3"></script>
+    <script src="/assets/js/user-dashboard.js?v=3"></script>
+</body>
+</html>

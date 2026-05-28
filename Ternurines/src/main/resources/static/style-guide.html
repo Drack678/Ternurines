@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Componentes - Ternurines</title>
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
+    <style>
+        body {
+            background: var(--bg-primary);
+        }
+        
+        .style-guide {
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .component-section {
+            margin-bottom: 60px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .component-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        
+        .component-description {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+        
+        .component-example {
+            background: var(--bg-secondary);
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-light);
+        }
+        
+        .component-code {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-top: 16px;
+        }
+        
+        .component-code code {
+            color: #d4d4d4;
+        }
+        
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .color-box {
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="style-guide">
+        <h1 style="text-align: center; margin-bottom: 48px;">🎨 Guía de Componentes Ternurines</h1>
+
+        <!-- COLORES -->
+        <div class="component-section">
+            <h2 class="component-title">Paleta de Colores</h2>
+            <p class="component-description">Colores utilizados en toda la interfaz</p>
+            
+            <div class="color-palette">
+                <div class="color-box" style="background: linear-gradient(135deg, #1f7a5c 0%, #145540 100%);">
+                    <strong>Primario</strong>
+                    <small>#1f7a5c</small>
+                </div>
+                <div class="color-box" style="background: #b25b38;">
+                    <strong>Secundario</strong>
+                    <small>#b25b38</small>
+                </div>
+                <div class="color-box" style="background: #27ae60;">
+                    <strong>Éxito</strong>
+                    <small>#27ae60</small>
+                </div>
+                <div class="color-box" style="background: #f39c12; color: #333;">
+                    <strong>Alerta</strong>
+                    <small>#f39c12</small>
+                </div>
+                <div class="color-box" style="background: #e74c3c;">
+                    <strong>Peligro</strong>
+                    <small>#e74c3c</small>
+                </div>
+                <div class="color-box" style="background: #2f6690;">
+                    <strong>Información</strong>
+                    <small>#2f6690</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="component-section">
+            <h2 class="component-title">Botones</h2>
+            <p class="component-description">Diferentes estilos de botones disponibles</p>
+            
+            <div class="component-example">
+                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button class="btn btn-primary">Primario</button>
+                    <button class="btn btn-secondary">Secundario</button>
+                    <button class="btn btn-outline">Outline</button>
+                    <button class="btn btn-danger">Peligro</button>
+                    <button class="btn btn-success">Éxito</button>
+                </div>
+                <div style="margin-top: 16px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <button class="btn btn-primary btn-sm">Pequeño</button>
+                    <button class="btn btn-primary btn-lg">Grande</button>
+                    <button class="btn btn-primary" disabled>Deshabilitado</button>
+                </div>
+            </div>
+            
+            <div class="component-code"><code>&lt;button class="btn btn-primary"&gt;Primario&lt;/button&gt;
+&lt;button class="btn btn-secondary"&gt;Secundario&lt;/button&gt;
+&lt;button class="btn btn-outline"&gt;Outline&lt;/button&gt;</code></div>
+        </div>
+
+        <!-- BADGES -->
+        <div class="component-section">
+            <h2 class="component-title">Badges</h2>
+            <p class="component-description">Etiquetas para estados y categorías</p>
+            
+            <div class="component-example">
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span class="badge badge-primary">Primario</span>
+                    <span class="badge badge-secondary">Secundario</span>
+                    <span class="badge badge-success">Éxito</span>
+                    <span class="badge badge-danger">Peligro</span>
+                    <span class="badge badge-warning">Advertencia</span>
+                    <span class="badge badge-info">Información</span>
+                </div>
+            </div>
+            
+            <div class="component-code"><code>&lt;span class="badge badge-primary"&gt;Primario&lt;/span&gt;
+&lt;span class="badge badge-success"&gt;Éxito&lt;/span&gt;</code></div>
+        </div>
+
+        <!-- TARJETAS -->
+        <div class="component-section">
+            <h2 class="component-title">Tarjetas</h2>
+            <p class="component-description">Componentes de contenedor reutilizables</p>
+            
+            <div class="component-example">
+                <div class="grid grid-cols-2">
+                    <div class="card">
+                        <h3 style="margin-top: 0;">Tarjeta Simple</h3>
+                        <p>Contenido de la tarjeta con información importante.</p>
+                        <button class="btn btn-sm btn-primary">Acción</button>
+                    </div>
+                    
+                    <div class="card">
+                        <div style="text-align: center; font-size: 2rem; margin-bottom: 16px;">🐕</div>
+                        <h3 style="text-align: center; margin: 0 0 8px 0;">Mascota</h3>
+                        <p style="text-align: center; color: var(--text-muted);">Labrador Dorado</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="component-code"><code>&lt;div class="card"&gt;
+    &lt;h3&gt;Título de la Tarjeta&lt;/h3&gt;
+    &lt;p&gt;Contenido de la tarjeta&lt;/p&gt;
+&lt;/div&gt;</code></div>
+        </div>
+
+        <!-- FORMULARIOS -->
+        <div class="component-section">
+            <h2 class="component-title">Formularios</h2>
+            <p class="component-description">Elementos de entrada de datos</p>
+            
+            <div class="component-example">
+                <form style="max-width: 400px;">
+                    <div class="form-group">
+                        <label for="example-text" class="required">Campo de Texto</label>
+                        <input type="text" id="example-text" placeholder="Ingresa texto...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="example-email" class="required">Email</label>
+                        <input type="email" id="example-email" placeholder="correo@ejemplo.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="example-select" class="required">Seleccionar</label>
+                        <select id="example-select">
+                            <option>-- Opción 1 --</option>
+                            <option>Opción 2</option>
+                            <option>Opción 3</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="example-textarea">Textarea</label>
+                        <textarea id="example-textarea" placeholder="Escribe aquí..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><input type="checkbox"> Aceptar términos</label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline btn-sm">Cancelar</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Enviar</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="component-code"><code>&lt;div class="form-group"&gt;
+    &lt;label for="input" class="required"&gt;Campo Requerido&lt;/label&gt;
+    &lt;input type="text" id="input" placeholder="Placeholder..."&gt;
+&lt;/div&gt;</code></div>
+        </div>
+
+        <!-- ALERTAS -->
+        <div class="component-section">
+            <h2 class="component-title">Alertas y Notificaciones</h2>
+            <p class="component-description">Mensajes de estado y retroalimentación</p>
+            
+            <div class="component-example">
+                <div class="alert alert-success" style="margin-bottom: 12px;">
+                    ✓ Operación completada exitosamente
+                </div>
+                <div class="alert alert-info" style="margin-bottom: 12px;">
+                    ℹ Información importante para el usuario
+                </div>
+                <div class="alert alert-warning" style="margin-bottom: 12px;">
+                    ⚠ Advertencia: Verifica esta acción
+                </div>
+                <div class="alert alert-danger">
+                    ✕ Error: Ocurrió un problema
+                </div>
+            </div>
+            
+            <div class="component-code"><code>&lt;div class="alert alert-success"&gt;
+    ✓ Operación completada exitosamente
+&lt;/div&gt;</code></div>
+        </div>
+
+        <!-- ESTADÍSTICAS -->
+        <div class="component-section">
+            <h2 class="component-title">Tarjetas de Estadísticas</h2>
+            <p class="component-description">Resumen visual de métricas</p>
+            
+            <div class="component-example">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-icon primary">👥</div>
+                        <div class="stat-card-label">Usuarios</div>
+                        <div class="stat-card-value">1,234</div>
+                        <div class="stat-card-change positive">+12% este mes</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-icon secondary">🐾</div>
+                        <div class="stat-card-label">Mascotas</div>
+                        <div class="stat-card-value">856</div>
+                        <div class="stat-card-change positive">+8% este mes</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-icon success">📅</div>
+                        <div class="stat-card-label">Citas</div>
+                        <div class="stat-card-value">342</div>
+                        <div class="stat-card-change positive">+15% este mes</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card-icon warning">💊</div>
+                        <div class="stat-card-label">Medicamentos</div>
+                        <div class="stat-card-value">456</div>
+                        <div class="stat-card-change negative">-5% bajo stock</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLAS -->
+        <div class="component-section">
+            <h2 class="component-title">Tablas</h2>
+            <p class="component-description">Presentación de datos tabulares</p>
+            
+            <div class="component-example">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Especie</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>001</td>
+                                <td>Firulais</td>
+                                <td>Perro</td>
+                                <td><span class="badge badge-success">Activo</span></td>
+                                <td>
+                                    <button class="action-btn action-btn-edit">Editar</button>
+                                    <button class="action-btn action-btn-delete">Eliminar</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>002</td>
+                                <td>Misisí</td>
+                                <td>Gato</td>
+                                <td><span class="badge badge-success">Activo</span></td>
+                                <td>
+                                    <button class="action-btn action-btn-edit">Editar</button>
+                                    <button class="action-btn action-btn-delete">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TIPOGRAFÍA -->
+        <div class="component-section">
+            <h2 class="component-title">Tipografía</h2>
+            <p class="component-description">Jerarquía y estilos de texto</p>
+            
+            <div class="component-example">
+                <h1>Encabezado H1 - 2rem</h1>
+                <h2>Encabezado H2 - 1.75rem</h2>
+                <h3>Encabezado H3 - 1.25rem</h3>
+                <h4>Encabezado H4 - 1.1rem</h4>
+                <p>Párrafo regular - 1rem</p>
+                <small>Texto pequeño - 0.875rem</small>
+                <p class="text-muted">Texto mutted/secundario</p>
+            </div>
+        </div>
+
+        <!-- LAYOUT GRID -->
+        <div class="component-section">
+            <h2 class="component-title">Sistema de Grid</h2>
+            <p class="component-description">Layouts responsivos</p>
+            
+            <div class="component-example">
+                <p style="margin-bottom: 16px; color: var(--text-muted);">Grid de 2 columnas</p>
+                <div class="grid grid-cols-2" style="gap: 12px;">
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px;">Columna 1</div>
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px;">Columna 2</div>
+                </div>
+                
+                <p style="margin: 24px 0 16px 0; color: var(--text-muted);">Grid de 3 columnas</p>
+                <div class="grid grid-cols-3" style="gap: 12px;">
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px;">1</div>
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px;">2</div>
+                    <div style="background: var(--bg-secondary); padding: 16px; border-radius: 8px;">3</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESTADOS -->
+        <div class="component-section">
+            <h2 class="component-title">Indicadores de Estado</h2>
+            <p class="component-description">Visualización de estatus</p>
+            
+            <div class="component-example">
+                <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                    <div>
+                        <strong>Estado Activo</strong>
+                        <div style="margin-top: 8px;">
+                            <span class="status-indicator">
+                                <span class="status-dot active"></span>
+                                Activo
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>Estado Pendiente</strong>
+                        <div style="margin-top: 8px;">
+                            <span class="status-indicator">
+                                <span class="status-dot pending"></span>
+                                Pendiente
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <strong>Estado Inactivo</strong>
+                        <div style="margin-top: 8px;">
+                            <span class="status-indicator">
+                                <span class="status-dot inactive"></span>
+                                Inactivo
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/utils.js"></script>
+</body>
+</html>

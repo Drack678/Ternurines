@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ternurines - Sistema Veterinario</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="app-body">
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">T</div>
+            <span>Ternurines</span>
+        </div>
+        <nav>
+            <button class="nav-link active" data-target="dashboard">Dashboard</button>
+            <button class="nav-link" data-target="usuarios">Usuarios</button>
+            <button class="nav-link" data-target="clientes">Clientes</button>
+            <button class="nav-link" data-target="mascotas">Mascotas</button>
+            <button class="nav-link" data-target="citas">Citas</button>
+            <button class="nav-link" data-target="historial">Historial</button>
+            <button class="nav-link" data-target="catalogo">Catalogo</button>
+            <button class="nav-link" data-target="inventario">Inventario</button>
+            <button class="nav-link" data-target="adopciones">Adopciones</button>
+            <button class="nav-link" data-target="reportes">Reportes</button>
+        </nav>
+        <div class="sidebar-footer">
+            <div>
+                <p>Sesion activa</p>
+                <strong id="currentUser">Usuario</strong>
+                <small id="currentRole">Rol</small>
+            </div>
+            <button id="logoutBtn" class="secondary-button">Cerrar sesion</button>
+        </div>
+    </aside>
+
+    <main class="content">
+        <section id="dashboard" class="page active">
+            <div class="page-header">
+                <div>
+                    <h2>Panel de control</h2>
+                    <p>Resumen operacional de la clinica veterinaria Ternurines.</p>
+                </div>
+                <div class="page-toolbar">
+                    <button class="primary-button" data-jump="citas">Nueva cita</button>
+                    <button class="soft-button" data-jump="historial">Registrar diagnostico</button>
+                </div>
+            </div>
+            <div class="cards-grid">
+                <div class="card card-primary"><span>Clientes</span><strong id="clientesCount">0</strong></div>
+                <div class="card card-success"><span>Mascotas</span><strong id="mascotasCount">0</strong></div>
+                <div class="card card-accent"><span>Citas hoy</span><strong id="citasCount">0</strong></div>
+                <div class="card card-warning"><span>Stock critico</span><strong id="stockCount">0</strong></div>
+            </div>
+            <div class="section-block">
+                <div class="section-title">
+                    <div>
+                        <h3>Proximas citas</h3>
+                        <p>Agenda cercana y estado de atencion.</p>
+                    </div>
+                </div>
+                <div id="proximasCitas" class="list-block"></div>
+            </div>
+        </section>
+
+        <section id="usuarios" class="page">
+            <div class="page-header"><div><h2>Gestion de usuarios</h2><p>Registro por rol para administrador, recepcionista, veterinario y cliente.</p></div></div>
+            <div class="two-column">
+                <div class="section-block">
+                    <h3>Registrar usuario</h3>
+                    <form id="usuarioForm" class="grid-form">
+                        <input type="hidden" name="id" id="usuarioId" />
+                        <input name="nombre" placeholder="Nombre completo" required />
+                        <input name="documento" placeholder="Documento" required />
+                        <input name="telefono" placeholder="Telefono" />
+                        <input name="correo" type="email" placeholder="Correo" required />
+                        <input name="contrasena" type="password" placeholder="Contrasena" required />
+                        <select name="rol" id="rolUsuario">
+                            <option>CLIENTE</option>
+                            <option>RECEPCIONISTA</option>
+                            <option>VETERINARIO</option>
+                            <option>ADMINISTRADOR</option>
+                        </select>
+                        <input name="direccion" placeholder="Direccion cliente" />
+                        <input name="especialidad" placeholder="Especialidad veterinaria" />
+                        <input name="numLicencia" placeholder="Licencia veterinaria" />
+                        <button class="primary-button full-width" type="submit">Guardar usuario</button>
+                        <button type="button" class="secondary-button full-width" data-action="cancel-edit" data-form="usuarioForm" hidden>Cancelar edición</button>
+                        <div id="usuarioStatus" class="form-status full-width"></div>
+                    </form>
+                </div>
+                <div class="section-block">
+                    <h3>Usuarios registrados</h3>
+                    <div id="usuariosGrid" class="entity-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="clientes" class="page">
+            <div class="page-header"><div><h2>Clientes</h2><p>Registro y consulta de responsables de mascotas.</p></div></div>
+            <div class="two-column">
+                <div class="section-block">
+                    <h3>Nuevo cliente</h3>
+                    <form id="clienteForm" class="grid-form">
+                        <input type="hidden" name="id" id="clienteId" />
+                        <input name="nombre" placeholder="Nombre" required />
+                        <input name="documento" placeholder="Documento" required />
+                        <input name="telefono" placeholder="Telefono" />
+                        <input name="direccion" placeholder="Direccion" />
+                        <input name="correo" type="email" placeholder="Correo" required />
+                        <input name="contrasena" type="password" placeholder="Contrasena" required />
+                        <button class="primary-button full-width" type="submit">Registrar cliente</button>
+                        <button type="button" class="secondary-button full-width" data-action="cancel-edit" data-form="clienteForm" hidden>Cancelar edición</button>
+                        <div id="clienteStatus" class="form-status full-width"></div>
+                    </form>
+                </div>
+                <div class="section-block">
+                    <div class="search-bar"><input type="text" id="clientesSearch" placeholder="Buscar cliente..." /></div>
+                    <div id="clientesGrid" class="entity-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="mascotas" class="page">
+            <div class="page-header"><div><h2>Mascotas</h2><p>Gestion de mascotas asociadas a clientes.</p></div></div>
+            <div class="two-column">
+                <div class="section-block">
+                    <h3>Nueva mascota</h3>
+                    <form id="mascotaForm" class="grid-form">
+                        <input type="hidden" name="id" id="mascotaId" />
+                        <select name="idCliente" id="mascotaClienteSelect" required></select>
+                        <input name="nombre" placeholder="Nombre" required />
+                        <input name="especie" placeholder="Especie" />
+                        <input name="raza" placeholder="Raza" />
+                        <input name="edad" type="number" placeholder="Edad" min="0" />
+                        <input name="peso" type="number" step="0.1" placeholder="Peso kg" min="0" />
+                        <select name="sexo"><option>Macho</option><option>Hembra</option><option>No especificado</option></select>
+                        <button class="primary-button full-width" type="submit">Registrar mascota</button>
+                        <button type="button" class="secondary-button full-width" data-action="cancel-edit" data-form="mascotaForm" hidden>Cancelar edición</button>
+                        <div id="mascotaStatus" class="form-status full-width"></div>
+                    </form>
+                </div>
+                <div class="section-block">
+                    <div class="search-bar" id="mascotasSearchBar"><input type="text" id="mascotasSearch" placeholder="Buscar por nombre, especie o dueno..." /></div>
+                    <div class="entity-grid" id="mascotasGrid"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="citas" class="page">
+            <div class="page-header"><div><h2>Citas</h2><p>Agenda con validacion de disponibilidad por veterinario.</p></div></div>
+            <div class="two-column">
+                <div class="section-block">
+                    <h3>Agendar cita</h3>
+                    <form id="citaForm" class="grid-form">
+                        <input type="hidden" name="id" id="citaId" />
+                        <select name="idMascota" id="citaMascotaSelect" required></select>
+                        <select name="idVeterinario" id="citaVeterinarioSelect" required></select>
+                        <select name="idRecepcionista" id="citaRecepcionistaSelect" required></select>
+                        <input name="fecha" id="citaFecha" type="date" required />
+                        <select name="hora" id="citaHoraSelect" required></select>
+                        <input name="motivo" placeholder="Motivo de consulta" required />
+                        <select name="estado"><option>Pendiente</option><option>Completada</option><option>Cancelada</option></select>
+                        <button class="primary-button full-width" type="submit">Guardar cita</button>
+                        <button type="button" class="secondary-button full-width" data-action="cancel-edit" data-form="citaForm" hidden>Cancelar edición</button>
+                        <div id="citaStatus" class="form-status full-width"></div>
+                    </form>
+                </div>
+                <div class="section-block">
+                    <div class="search-bar"><input type="text" id="citasSearch" placeholder="Buscar por mascota, cliente o motivo..." /></div>
+                    <div class="entity-grid" id="citasGrid"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="historial" class="page">
+            <div class="page-header"><div><h2>Historial clinico</h2><p>Diagnosticos, tratamientos y receta digital por mascota.</p></div></div>
+            <div class="section-block">
+                <form id="historialSearchForm" class="grid-form">
+                    <select id="mascotaSelect"></select>
+                    <button type="submit" class="primary-button">Cargar historial</button>
+                </form>
+                <table class="data-table">
+                    <thead><tr><th>Fecha</th><th>Veterinario</th><th>Diagnostico</th><th>Tratamientos / receta</th></tr></thead>
+                    <tbody id="historialTable"></tbody>
+                </table>
+            </div>
+            <div class="section-block">
+                <h3>Registrar consulta</h3>
+                <form id="newHistorialForm" class="grid-form">
+                    <select id="histMascotaSelect"></select>
+                    <select id="histVeterinarioSelect"></select>
+                    <textarea id="diagnostico" rows="3" placeholder="Diagnostico" required></textarea>
+                    <textarea id="observaciones" rows="3" placeholder="Observaciones"></textarea>
+                    <select id="medicamentoSelect"></select>
+                    <input type="text" id="dosis" placeholder="Dosis" required />
+                    <input type="date" id="fechaInicio" required />
+                    <input type="date" id="fechaFin" required />
+                    <button type="submit" class="primary-button full-width">Guardar consulta y receta</button>
+                    <div id="historialStatus" class="form-status full-width"></div>
+                </form>
+            </div>
+        </section>
+
+        <section id="catalogo" class="page">
+            <div class="page-header"><div><h2>Catalogo</h2><p>Servicios y productos visibles para clientes.</p></div></div>
+            <div class="two-column">
+                <div class="section-block">
+                    <h3>Nuevo servicio</h3>
+                    <form id="servicioForm" class="grid-form">
+                        <input type="hidden" name="id" id="servicioId" />
+                        <input name="nombre" placeholder="Servicio" required />
+                        <input name="descripcion" placeholder="Descripcion" />
+                        <input name="precio" type="number" step="0.01" placeholder="Precio" required />
+                        <button class="primary-button full-width" type="submit">Guardar servicio</button>
+                        <button type="button" class="secondary-button full-width" data-action="cancel-edit" data-form="servicioForm" hidden>Cancelar edición</button>
+                    </form>
+                    <div id="serviciosGrid" class="entity-grid compact-list"></div>
+                </div>
+                <div class="section-block">
+                    <h3>Productos de catalogo</h3>
+                    <div id="catalogoProductosGrid" class="entity-grid compact-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="inventario" class="page">
+            <div class="page-header"><div><h2>Inventario y stock</h2><p>Control de medicamentos y productos.</p></div></div>
+            <div class="two-column">
+                <div class="section-block">
+                    <h3>Nuevo medicamento</h3>
+                    <form id="medicamentoForm" class="grid-form">
+                        <input type="hidden" name="id" id="medicamentoId" />
+                        <input name="nombre" placeholder="Medicamento" required />
+                        <input name="descripcion" placeholder="Descripcion" />
+                        <input name="precio" type="number" step="0.01" placeholder="Precio" required />
+                        <input name="stock" type="number" placeholder="Stock" required />
+                        <input name="fechaVencimiento" type="date" />
+                        <button class="primary-button full-width" type="submit">Guardar medicamento</button>
+                        <button type="button" class="secondary-button full-width" data-action="cancel-edit" data-form="medicamentoForm" hidden>Cancelar edición</button>
+                    </form>
+                    <div id="medicamentosGrid" class="entity-grid"></div>
+                </div>
+                <div class="section-block">
+                    <h3>Nuevo producto</h3>
+                    <form id="productoForm" class="grid-form">
+                        <input type="hidden" name="id" id="productoId" />
+                        <input name="nombre" placeholder="Producto" required />
+                        <input name="descripcion" placeholder="Descripcion" />
+                        <input name="precio" type="number" step="0.01" placeholder="Precio" required />
+                        <input name="stock" type="number" placeholder="Stock" required />
+                        <input name="fechaVencimiento" type="date" />
+                        <button class="primary-button full-width" type="submit">Guardar producto</button>
+                        <button type="button" class="secondary-button full-width" data-action="cancel-edit" data-form="productoForm" hidden>Cancelar edición</button>
+                    </form>
+                    <div id="productosGrid" class="entity-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="adopciones" class="page">
+            <div class="page-header"><div><h2>Adopciones</h2><p>Registro de mascotas disponibles y procesos de adopcion.</p></div></div>
+            <div class="two-column">
+                <div class="section-block">
+                    <h3>Mascota en adopcion</h3>
+                    <form id="adopcionMascotaForm" class="grid-form">
+                        <select name="idRecepcionista" id="adopcionRecepcionistaSelect"></select>
+                        <input name="nombre" placeholder="Nombre" required />
+                        <input name="especie" placeholder="Especie" />
+                        <input name="raza" placeholder="Raza" />
+                        <input name="edad" type="number" placeholder="Edad" />
+                        <input name="estadoSalud" placeholder="Estado de salud" />
+                        <select name="estadoAdopcion"><option>Disponible</option><option>En proceso</option><option>Adoptada</option></select>
+                        <input name="fechaIngreso" type="date" />
+                        <button class="primary-button full-width" type="submit">Registrar mascota</button>
+                    </form>
+                    <div id="adopcionMascotasGrid" class="entity-grid"></div>
+                </div>
+                <div class="section-block">
+                    <h3>Registrar adoptante</h3>
+                    <form id="adopcionForm" class="grid-form">
+                        <select name="idMascotaAdopcion" id="adopcionMascotaSelect" required></select>
+                        <input name="nombre" placeholder="Adoptante" required />
+                        <input name="documento" placeholder="Documento" required />
+                        <input name="telefono" placeholder="Telefono" />
+                        <input name="direccion" placeholder="Direccion" />
+                        <input name="correo" type="email" placeholder="Correo" />
+                        <input name="fechaAdopcion" type="date" />
+                        <button class="primary-button full-width" type="submit">Finalizar adopcion</button>
+                    </form>
+                    <div id="adopcionesGrid" class="entity-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="reportes" class="page">
+            <div class="page-header"><div><h2>Reportes</h2><p>Analisis administrativo de ocupacion, contactos, mascotas y stock.</p></div></div>
+            <div class="section-block report-grid" id="reportesGrid"></div>
+            <div class="section-block">
+                <h3>Finanzas</h3>
+                <div id="finanzasContainer">
+                    <canvas id="ingresosChart" width="800" height="300"></canvas>
+                    <div id="finanzasSummary" class="report-cards"></div>
+                    <div id="topServicios" class="report-cards"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

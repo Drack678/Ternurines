@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: ternurines-db
+    environment:
+      POSTGRES_DB: ternurines
+      POSTGRES_USER: ternurines
+      POSTGRES_PASSWORD: ternpass
+    volumes:
+      - ternurines-db-data:/var/lib/postgresql/data
+      - ./src/main/resources/db:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    container_name: ternurines-app
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ternurines
+      DB_USER: ternurines
+      DB_PASSWORD: ternpass
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  ternurines-db-data:
