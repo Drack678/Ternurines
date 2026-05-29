@@ -1,5 +1,8 @@
 package com.ternurines.features.servicio;
 
+/**
+ * Domain model for the servicio entity persisted by the application.
+ */
 public class Servicio {
     private Integer idServicio;
     private String nombre;

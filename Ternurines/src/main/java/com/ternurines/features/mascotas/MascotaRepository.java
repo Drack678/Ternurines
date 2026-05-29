@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+/**
+ * Data repository for mascota persistence and SQL access.
+ */
 public class MascotaRepository {
 
     private final JdbcTemplate jdbcTemplate;

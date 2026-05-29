@@ -2,6 +2,9 @@ package com.ternurines.features.mascotas;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Domain model for the mascota entity persisted by the application.
+ */
 public class Mascota {
     private Integer idMascota;
     private Integer idCliente;

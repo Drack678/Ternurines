@@ -162,10 +162,6 @@
                     <div class="page-header">
                         <h1>Mis Citas</h1>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="citas-search" placeholder="Buscar cita...">
-                            </div>
                             <select id="cita-status-filter" onchange="loadCitasTable()">
                                 <option value="">Todos los estados</option>
                                 <option value="Pendiente">Pendientes</option>
@@ -189,10 +185,6 @@
                     <div class="page-header">
                         <h1>Mis Pacientes</h1>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="pacientes-search" placeholder="Buscar paciente...">
-                            </div>
                             <select id="pacientes-species-filter" onchange="loadPacientes()">
                                 <option value="">Todas las especies</option>
                                 <option value="perro">Perros</option>
@@ -213,10 +205,6 @@
                     <div class="page-header">
                         <h1>Historial Clínico</h1>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="historial-search" placeholder="Buscar historial...">
-                            </div>
                             <button class="btn btn-primary" onclick="openNewHistorialModal()">+ Nuevo Registro</button>
                         </div>
                     </div>
@@ -256,10 +244,7 @@
                     <div class="page-header">
                         <h1>Recetas Médicas</h1>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="recetas-search" placeholder="Buscar receta...">
-                            </div>
+                            
                             <select id="recetas-med-filter" onchange="loadRecetasTable()">
                                 <option value="">Todas las recetas</option>
                                 <option value="con-medicamento">Con medicamento</option>

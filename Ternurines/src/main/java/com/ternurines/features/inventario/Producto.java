@@ -2,6 +2,9 @@ package com.ternurines.features.inventario;
 
 import java.time.LocalDate;
 
+/**
+ * Domain model for the producto entity persisted by the application.
+ */
 public class Producto {
     private Integer idProducto;
     private Integer idAdministrador;

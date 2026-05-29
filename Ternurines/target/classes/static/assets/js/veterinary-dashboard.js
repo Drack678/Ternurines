@@ -257,12 +257,32 @@ async function saveConsultation(citaId) {
             notas: document.getElementById('consult-notes').value
         };
 
-        await API.put(`/citas/${citaId}`, { ...consultData, estado: 'completada' });
+        // Obtener la cita para extraer idMascota e idVeterinario
+        const citas = await API.get('/citas');
+        const cita = (citas || []).find(c => c.id === citaId || c.idCita === citaId || c.id_cita === citaId || c.id_cita === citaId || c.id == citaId);
+        if (!cita) {
+            Notify.error('Cita no encontrada');
+            return;
+        }
+
+        // Crear historial (consulta) y marcar la cita como completada
+        const historialPayload = {
+            idMascota: cita.mascota_id || cita.idMascota || cita.id_mascota || cita.idMascota,
+            idVeterinario: cita.veterinario_id || cita.idVeterinario || cita.id_veterinario || cita.idVeterinario,
+            diagnostico: consultData.diagnostico,
+            observaciones: consultData.notas
+        };
+
+        await API.post('/historial', historialPayload);
+        // Marcar cita como completada usando el endpoint PATCH existente
+        await API.patch(`/citas/${citaId}/completar`);
+
         Modal.close();
         Notify.success('Consulta guardada exitosamente');
         loadCitasTable();
         loadDashboardData();
     } catch (error) {
+        console.error('Error saving consultation:', error);
         Notify.error('Error al guardar consulta');
     }
 }

@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+/**
+ * Data repository for cliente persistence and SQL access.
+ */
 public class ClienteRepository {
 
     private final JdbcTemplate jdbcTemplate;

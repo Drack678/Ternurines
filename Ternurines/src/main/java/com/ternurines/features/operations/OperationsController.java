@@ -21,6 +21,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/operaciones")
+/**
+ * HTTP REST controller that exposes endpoints to manage operations operations.
+ */
 public class OperationsController {
 
     private final JdbcTemplate jdbcTemplate;

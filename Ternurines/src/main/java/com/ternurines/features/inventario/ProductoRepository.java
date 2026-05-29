@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+/**
+ * Data repository for producto persistence and SQL access.
+ */
 public class ProductoRepository {
     private final JdbcTemplate jdbcTemplate;
 

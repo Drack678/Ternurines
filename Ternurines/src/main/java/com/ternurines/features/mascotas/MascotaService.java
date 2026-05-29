@@ -6,6 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+/**
+ * Business service layer for mascota management and transactional logic.
+ */
 public class MascotaService {
 
     private final MascotaRepository repository;

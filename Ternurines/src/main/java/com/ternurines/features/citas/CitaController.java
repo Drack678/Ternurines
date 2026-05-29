@@ -15,6 +15,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/citas")
+/**
+ * HTTP REST controller that exposes endpoints to manage cita operations.
+ */
 public class CitaController {
 
     private final CitaService citaService;

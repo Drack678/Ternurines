@@ -14,6 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/mascotas")
+/**
+ * HTTP REST controller that exposes endpoints to manage mascota operations.
+ */
 public class MascotaController {
 
     private final MascotaService mascotaService;

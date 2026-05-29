@@ -11,6 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/dashboard")
+/**
+ * HTTP REST controller that exposes endpoints to manage dashboard operations.
+ */
 public class DashboardController {
 
     private final JdbcTemplate jdbcTemplate;
@@ -23,9 +26,23 @@ public class DashboardController {
     public ResponseEntity<DashboardSummary> getSummary() {
         DashboardSummary summary = new DashboardSummary();
 
-        summary.setClientesRegistrados(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM cliente", Integer.class));
-        summary.setMascotasActivas(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM mascota", Integer.class));
-        summary.setCitasHoy(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM cita WHERE fecha = CURRENT_DATE", Integer.class));
+        summary.setTotalUsuarios(jdbcTemplate.queryForObject(
+                "SELECT COALESCE((SELECT COUNT(*) FROM administrador) + " +
+                        "(SELECT COUNT(*) FROM recepcionista) + " +
+                        "(SELECT COUNT(*) FROM veterinario) + " +
+                        "(SELECT COUNT(*) FROM cliente), 0)", Integer.class));
+
+        // Mascotas atendidas: contar mascotas que aparecen en el historial médico
+        summary.setMascotasRegistradas(jdbcTemplate.queryForObject(
+                "SELECT COALESCE(COUNT(DISTINCT id_mascota),0) FROM historial_medico", Integer.class));
+
+        // Total de citas registradas en el negocio
+        summary.setCitasProgramadas(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM cita", Integer.class));
+
+        // Total de medicamentos (registro por registro)
+        summary.setMedicamentosEnStock(jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM medicamento", Integer.class));
+
         summary.setStockBajo(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM medicamento WHERE stock < 10", Integer.class));
 
         List<DashboardCita> proximas = jdbcTemplate.query(
@@ -34,7 +51,8 @@ public class DashboardController {
                         "JOIN veterinario v ON c.id_veterinario = v.id_veterinario " +
                         "JOIN mascota m ON c.id_mascota = m.id_mascota " +
                         "JOIN cliente cl ON m.id_cliente = cl.id_cliente " +
-                        "WHERE c.fecha >= CURRENT_DATE ORDER BY c.fecha, c.hora LIMIT 5",
+                        "WHERE c.estado NOT ILIKE 'Cancelada' AND c.fecha >= CURRENT_DATE " +
+                        "ORDER BY c.fecha, c.hora LIMIT 5",
                 new BeanPropertyRowMapper<>(DashboardCita.class));
         summary.setProximasCitas(proximas);
 

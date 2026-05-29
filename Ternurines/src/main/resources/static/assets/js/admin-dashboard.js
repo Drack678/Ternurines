@@ -4,9 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     RoleManager.requireRole(['administrador']);
     initializeDashboard();
     initializeFilters();
+});
+
+function initializeDashboard() {
     loadDashboardData();
     loadReportesCharts();
-});
+}
 
 function initializeFilters() {
     const reloaders = {
@@ -16,6 +19,8 @@ function initializeFilters() {
         adopciones: loadAdopcionesTable,
         medicamentos: loadMedicamentosTable
     };
+    // Registrar handler para que el botón llame directamente al reloader correspondiente
+    FilterUtils.onSearch(() => reloaders[FilterUtils.activeSection()]?.());
     FilterUtils.bindInput('search-input', () => reloaders[FilterUtils.activeSection()]?.());
     ['usuarios-search', 'mascotas-search', 'citas-search', 'adopciones-search', 'medicamentos-search']
         .forEach(id => FilterUtils.bindInput(id, () => reloaders[FilterUtils.activeSection()]?.()));
@@ -95,29 +100,75 @@ function scrollToTop() {
 async function loadDashboardData() {
     try {
         Loading.show();
+        // Intentar cargar resumen agregado desde el endpoint /api/dashboard/summary
+        try {
+            const summary = await API.get('/dashboard/summary');
+            if (summary) {
+                const usuariosEl = document.getElementById('stat-usuarios');
+                if (usuariosEl) usuariosEl.textContent = summary.totalUsuarios ?? 0;
+
+                const mascotasEl = document.getElementById('stat-mascotas');
+                if (mascotasEl) mascotasEl.textContent = summary.mascotasRegistradas ?? 0;
+
+                const citasEl = document.getElementById('stat-citas');
+                if (citasEl) citasEl.textContent = summary.citasProgramadas ?? 0;
+
+                const medicEl = document.getElementById('stat-medicamentos');
+                if (medicEl) medicEl.textContent = summary.medicamentosEnStock ?? 0;
+
+                // Citas recientes desde el resumen
+                const recentCitas = Array.isArray(summary.proximasCitas) ? summary.proximasCitas : [];
+                displayRecentCitas(recentCitas.slice(0, 5));
+
+                // Adopciones pendientes
+                const adopcionesData = await API.get('/operaciones/adopciones');
+                const pendingAdopciones = (adopcionesData.mascotas || []).filter(a => a.estado_adopcion === 'Disponible').slice(0, 5);
+                displayPendingAdopciones(pendingAdopciones);
+
+                Loading.hide();
+                return;
+            }
+        } catch (e) {
+            console.warn('No se pudo cargar /dashboard/summary, usando endpoints individuales', e);
+        }
+
+        // Fallback: cargar datos desde endpoints individuales (compatibilidad)
 
         // Cargar estadísticas
         const usuariosRes = await API.get('/operaciones/usuarios');
-        document.getElementById('stat-usuarios').textContent = usuariosRes.length || 0;
+        const usuariosCount = Array.isArray(usuariosRes) ? usuariosRes.length : (usuariosRes?.length || 0);
+        const usuariosEl2 = document.getElementById('stat-usuarios');
+        if (usuariosEl2) usuariosEl2.textContent = usuariosCount;
+        console.log('Usuarios cargados:', usuariosCount, usuariosRes);
 
         const mascotasRes = await API.get('/mascotas');
-        document.getElementById('stat-mascotas').textContent = mascotasRes.length || 0;
+        const mascotasCount = Array.isArray(mascotasRes) ? mascotasRes.length : (mascotasRes?.length || 0);
+        const mascotasEl2 = document.getElementById('stat-mascotas');
+        if (mascotasEl2) mascotasEl2.textContent = mascotasCount;
+        console.log('Mascotas cargadas:', mascotasCount, mascotasRes);
 
         const citasRes = await API.get('/citas');
-        document.getElementById('stat-citas').textContent = citasRes.length || 0;
+        const citasCount = Array.isArray(citasRes) ? citasRes.length : (citasRes?.length || 0);
+        const citasEl2 = document.getElementById('stat-citas');
+        if (citasEl2) citasEl2.textContent = citasCount;
+        console.log('Citas cargadas:', citasCount, citasRes);
 
-        const inventarioRes = await API.get('/inventario');
-        const totalInventario = (inventarioRes?.medicamentos?.length || 0) + (inventarioRes?.productos?.length || 0);
-        document.getElementById('stat-medicamentos').textContent = totalInventario;
+        const inventarioRes2 = await API.get('/inventario');
+        const medicamentosArray2 = Array.isArray(inventarioRes2?.medicamentos) ? inventarioRes2.medicamentos : [];
+        const productosArray2 = Array.isArray(inventarioRes2?.productos) ? inventarioRes2.productos : [];
+        const totalInventario2 = medicamentosArray2.length + productosArray2.length;
+        const medicEl2 = document.getElementById('stat-medicamentos');
+        if (medicEl2) medicEl2.textContent = totalInventario2;
+        console.log('Medicamentos cargados:', totalInventario2, inventarioRes2);
 
         // Cargar citas recientes
-        const recentCitas = citasRes.slice(0, 5);
+        const recentCitas = (citasRes || []).slice(0, 5);
         displayRecentCitas(recentCitas);
 
         // Cargar adopciones pendientes
-        const adopcionesData = await API.get('/operaciones/adopciones');
-        const pendingAdopciones = (adopcionesData.mascotas || []).filter(a => a.estado_adopcion === 'Disponible').slice(0, 5);
-        displayPendingAdopciones(pendingAdopciones);
+        const adopcionesData2 = await API.get('/operaciones/adopciones');
+        const pendingAdopciones2 = (adopcionesData2.mascotas || []).filter(a => a.estado_adopcion === 'Disponible').slice(0, 5);
+        displayPendingAdopciones(pendingAdopciones2);
 
         Loading.hide();
     } catch (error) {

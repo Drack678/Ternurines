@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+/**
+ * Data repository for medicamento persistence and SQL access.
+ */
 public class MedicamentoRepository {
     private final JdbcTemplate jdbcTemplate;
 

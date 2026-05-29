@@ -14,6 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/servicios")
+/**
+ * HTTP REST controller that exposes endpoints to manage servicio operations.
+ */
 public class ServicioController {
 
     private final ServicioRepository repository;

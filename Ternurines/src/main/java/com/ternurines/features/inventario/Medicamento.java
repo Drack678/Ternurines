@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
 
+/**
+ * Domain model for the medicamento entity persisted by the application.
+ */
 public class Medicamento {
     private Integer idMedicamento;
     private Integer idAdministrador;

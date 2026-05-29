@@ -6,6 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+/**
+ * Business service layer for cita management and transactional logic.
+ */
 public class CitaService {
 
     private final CitaRepository repository;

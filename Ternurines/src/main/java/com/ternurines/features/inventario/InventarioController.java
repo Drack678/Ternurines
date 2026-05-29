@@ -15,6 +15,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/inventario")
+/**
+ * HTTP REST controller that exposes endpoints to manage inventario operations.
+ */
 public class InventarioController {
 
     private final MedicamentoRepository medicamentoRepository;

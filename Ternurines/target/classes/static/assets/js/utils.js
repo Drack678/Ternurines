@@ -436,8 +436,56 @@ const FilterUtils = {
         input.dataset.filterBound = 'true';
         input.addEventListener('input', callback);
         input.addEventListener('change', callback);
+    },
+    _searchHandler: null,
+    onSearch: (fn) => { FilterUtils._searchHandler = fn; },
+    triggerSearch: (input) => { if (typeof FilterUtils._searchHandler === 'function') FilterUtils._searchHandler(input); },
+
+    attachSearchButtons: () => {
+        document.querySelectorAll('.search-bar').forEach(bar => {
+            const input = bar.querySelector('input');
+            if (!input) return;
+
+            // Buscar si ya existe un botón
+            if (bar.querySelector('.search-button')) return;
+
+            // Crear botón de búsqueda
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'search-button';
+            button.textContent = 'Buscar';
+            button.title = 'Buscar';
+
+            // Ejecutar búsqueda al hacer clic en el botón
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                input.focus();
+                // Llamar al handler de búsqueda registrado (más fiable que disparar eventos)
+                FilterUtils.triggerSearch(input);
+            });
+
+            // Hacer búsqueda al presionar Enter en el input
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    FilterUtils.triggerSearch(input);
+                }
+            });
+
+            bar.appendChild(button);
+        });
     }
 };
+
+// Adjuntar botones a los campos search-bar cuando el DOM esté listo
+if (typeof document !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Ejecutar después de una pequeña demora para asegurar que los listeners ya estén registrados
+        setTimeout(() => {
+            FilterUtils.attachSearchButtons();
+        }, 100);
+    });
+}
 
 // Validación de rol
 const RoleManager = {

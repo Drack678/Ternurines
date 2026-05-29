@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+/**
+ * Data repository for cita persistence and SQL access.
+ */
 public class CitaRepository {
 
     private final JdbcTemplate jdbcTemplate;

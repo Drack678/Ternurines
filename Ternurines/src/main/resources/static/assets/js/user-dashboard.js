@@ -1,11 +1,25 @@
 // ========== INICIALIZACIÓN ==========
 
+// Configuración de actualización automática (en milisegundos)
+const AUTO_REFRESH_INTERVAL = 30000; // 30 segundos
+let autoRefreshTimer = null;
+
 document.addEventListener('DOMContentLoaded', () => {
     RoleManager.requireRole(['usuario']);
+    setupRefreshAnimations(); // Configurar estilos de animación
     initializeDashboard();
     initializeFilters();
     loadUserData();
     populatePetSelect();
+    // Iniciar actualización automática de datos
+    startAutoRefresh();
+});
+
+// Limpiar timer al salir de la página
+window.addEventListener('beforeunload', () => {
+    if (autoRefreshTimer) {
+        clearInterval(autoRefreshTimer);
+    }
 });
 
 function initializeFilters() {
@@ -89,6 +103,107 @@ function scrollToTop() {
 
 // ========== CARGA DE DATOS ==========
 
+// Iniciar actualización automática de datos del dashboard
+function startAutoRefresh() {
+    // Cargar datos inmediatamente y luego cada X segundos
+    autoRefreshTimer = setInterval(() => {
+        // Solo actualizar si estamos en la sección de inicio (dashboard principal)
+        const inicioSection = document.getElementById('inicio-section');
+        if (inicioSection && inicioSection.style.display !== 'none') {
+            loadUserDataWithIndicator();
+        }
+    }, AUTO_REFRESH_INTERVAL);
+    
+    console.log(`✅ Actualización automática iniciada: cada ${AUTO_REFRESH_INTERVAL / 1000} segundos`);
+}
+
+// Detener actualización automática
+function stopAutoRefresh() {
+    if (autoRefreshTimer) {
+        clearInterval(autoRefreshTimer);
+        autoRefreshTimer = null;
+        console.log('⏸️ Actualización automática detenida');
+    }
+}
+
+// Cargar datos con indicador visual
+async function loadUserDataWithIndicator() {
+    try {
+        // Mostrar indicador de actualización
+        showRefreshIndicator();
+        await loadUserData();
+        // Ocultar indicador después de completar
+        hideRefreshIndicator();
+    } catch (error) {
+        console.error('Error en actualización automática:', error);
+        hideRefreshIndicator();
+    }
+}
+
+// Mostrar indicador de actualización
+function showRefreshIndicator() {
+    let indicator = document.getElementById('refresh-indicator');
+    if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.id = 'refresh-indicator';
+        indicator.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background: rgba(76, 175, 80, 0.9);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideIn 0.3s ease;
+        `;
+        indicator.innerHTML = '<span style="animation: spin 1s linear infinite;">⟳</span> Actualizando...';
+        document.body.appendChild(indicator);
+    } else {
+        indicator.style.display = 'flex';
+    }
+}
+
+// Ocultar indicador de actualización
+function hideRefreshIndicator() {
+    const indicator = document.getElementById('refresh-indicator');
+    if (indicator) {
+        setTimeout(() => {
+            indicator.style.display = 'none';
+        }, 1000);
+    }
+}
+
+// Agregar estilos de animación si no existen
+function setupRefreshAnimations() {
+    const style = document.getElementById('refresh-animations');
+    if (!style) {
+        const newStyle = document.createElement('style');
+        newStyle.id = 'refresh-animations';
+        newStyle.textContent = `
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(100px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        `;
+        document.head.appendChild(newStyle);
+    }
+}
+
 async function loadUserData() {
     try {
         const user = SessionManager.get('user');
@@ -120,6 +235,9 @@ async function loadUserData() {
         // Cargar recetas
         const recetas = await API.get(`/historial`);
         document.getElementById('stat-recetas').textContent = recetas.length;
+
+        // Actualizar timestamp de última actualización
+        updateRefreshTimestamp();
 
     } catch (error) {
         console.error('Error loading user data:', error);
@@ -575,10 +693,61 @@ async function getCurrentUserPets() {
     return mascotas.filter(m => m.idCliente === user.id);
 }
 
+// ========== CONFIGURACIÓN DE ACTUALIZACIÓN AUTOMÁTICA ==========
+
+// Cambiar el intervalo de actualización automática
+function setAutoRefreshInterval(milliseconds) {
+    stopAutoRefresh();
+    AUTO_REFRESH_INTERVAL = milliseconds;
+    startAutoRefresh();
+    console.log(`⏱️ Intervalo de actualización cambiado a: ${milliseconds / 1000} segundos`);
+}
+
+// Actualizar datos manualmente
+async function manualRefresh() {
+    const inicioSection = document.getElementById('inicio-section');
+    if (inicioSection && inicioSection.style.display !== 'none') {
+        await loadUserDataWithIndicator();
+        Notify.success('Datos actualizados correctamente');
+    } else {
+        Notify.info('Ve al dashboard para actualizar los datos');
+    }
+}
+
+// Obtener el último timestamp de actualización
+let lastRefreshTime = new Date();
+function updateRefreshTimestamp() {
+    lastRefreshTime = new Date();
+}
+
+// Mostrar información de actualización
+function showRefreshInfo() {
+    const timeAgo = getTimeAgo(lastRefreshTime);
+    Modal.open('Información de Actualización', `
+        <div style="text-align: center;">
+            <p><strong>Última actualización:</strong> hace ${timeAgo}</p>
+            <p><strong>Intervalo actual:</strong> ${AUTO_REFRESH_INTERVAL / 1000} segundos</p>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                Los datos se actualizan automáticamente cada ${AUTO_REFRESH_INTERVAL / 1000} segundos.
+            </p>
+        </div>
+    `, [
+        { label: 'Cerrar', class: 'btn-primary', callback: 'Modal.close()' }
+    ]);
+}
+
+function getTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    if (seconds < 60) return `${seconds} segundos`;
+    if (seconds < 3600) return `${Math.floor(seconds / 60)} minutos`;
+    return `${Math.floor(seconds / 3600)} horas`;
+}
+
 // ========== LOGOUT ==========
 
 function logout() {
     if (confirm('¿Deseas cerrar sesión?')) {
+        stopAutoRefresh(); // Detener actualización automática al salir
         SessionManager.clear();
         window.location.href = '/index.html';
     }

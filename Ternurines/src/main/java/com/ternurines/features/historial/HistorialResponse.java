@@ -6,6 +6,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data transfer object representing a response payload for historial operations.
+ */
 public class HistorialResponse {
     private Integer idHistorial;
     private Integer idMascota;

@@ -3,6 +3,9 @@ package com.ternurines.features.historial;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Data transfer object representing a request payload for historial operations.
+ */
 public class HistorialRequest {
 
     @NotNull

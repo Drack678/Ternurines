@@ -3,6 +3,9 @@ package com.ternurines.features.dashboard;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Payload representing an upcoming appointment entry for dashboard display.
+ */
 public class DashboardCita {
     private Integer idCita;
     private LocalDate fecha;

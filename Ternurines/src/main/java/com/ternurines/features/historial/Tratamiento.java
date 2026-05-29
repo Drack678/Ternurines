@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
 
+/**
+ * Domain model for a treatment record in medical history.
+ */
 public class Tratamiento {
     private Integer idTratamiento;
     private Integer idHistorial;

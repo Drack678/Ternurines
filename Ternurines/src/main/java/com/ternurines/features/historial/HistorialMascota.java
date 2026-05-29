@@ -1,5 +1,8 @@
 package com.ternurines.features.historial;
 
+/**
+ * Medical history entry joining patient and treatment information.
+ */
 public class HistorialMascota {
     private Integer idMascota;
     private String nombre;

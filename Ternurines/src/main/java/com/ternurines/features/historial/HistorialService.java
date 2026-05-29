@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+/**
+ * Business service layer for historial management and transactional logic.
+ */
 public class HistorialService {
 
     private final JdbcTemplate jdbcTemplate;

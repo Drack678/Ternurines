@@ -77,6 +77,14 @@
                 <div class="topbar-title">
                     <h2 id="page-title">Bienvenido</h2>
                 </div>
+                <div class="topbar-actions" style="display: flex; gap: 8px; align-items: center;">
+                    <button class="btn btn-sm btn-outline" onclick="manualRefresh()" title="Actualizar datos manualmente">
+                        ⟳ Actualizar
+                    </button>
+                    <button class="btn btn-sm btn-outline" onclick="showRefreshInfo()" title="Ver información de actualización">
+                        ℹ️ Info
+                    </button>
+                </div>
             </div>
 
             <div class="content" id="main-content">
@@ -157,10 +165,6 @@
                     <div class="page-header">
                         <h1>Mis Mascotas</h1>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="mascotas-search" placeholder="Buscar mascota...">
-                            </div>
                             <select id="mascotas-species-filter" onchange="loadUserPets()">
                                 <option value="">Todas las especies</option>
                                 <option value="perro">Perros</option>
@@ -183,10 +187,6 @@
                         <h1>Mis Adopciones</h1>
                         <p>Aquí puedes ver todas las mascotas que has adoptado</p>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="adopciones-search" placeholder="Buscar adopción...">
-                            </div>
                             <select id="adopciones-status-filter" onchange="loadUserAdoptions()">
                                 <option value="">Todos los estados</option>
                                 <option value="Adoptada">Adoptadas</option>
@@ -207,10 +207,6 @@
                         <h1>Recetas Médicas</h1>
                         <p>Historial de medicamentos prescritos para tus mascotas</p>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="recetas-search" placeholder="Buscar receta...">
-                            </div>
                             <select id="recetas-pet-filter" onchange="loadUserRecipes()">
                                 <option value="">Todas las mascotas</option>
                             </select>

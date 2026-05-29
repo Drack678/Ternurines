@@ -6,6 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+/**
+ * Business service layer for cliente management and transactional logic.
+ */
 public class ClienteService {
 
     private final ClienteRepository repository;

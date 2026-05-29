@@ -14,6 +14,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clientes")
+/**
+ * HTTP REST controller that exposes endpoints to manage cliente operations.
+ */
 public class ClienteController {
 
     private final ClienteService clienteService;

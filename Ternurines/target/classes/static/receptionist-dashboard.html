@@ -87,12 +87,6 @@
                 <div class="topbar-title">
                     <h2 id="page-title">Dashboard</h2>
                 </div>
-                <div class="topbar-actions">
-                    <div class="search-bar">
-                        <span class="search-icon">🔍</span>
-                        <input type="text" placeholder="Buscar..." id="search-input">
-                    </div>
-                </div>
             </div>
 
             <div class="content" id="main-content">
@@ -176,10 +170,6 @@
                     <div class="page-header">
                         <h1>Gestión de Usuarios</h1>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="usuarios-search" placeholder="Buscar usuario...">
-                            </div>
                             <select id="usuarios-role-filter" onchange="loadUsuariosTable()">
                                 <option value="">Todos los roles</option>
                                 <option value="cliente">Clientes</option>
@@ -203,10 +193,6 @@
                     <div class="page-header">
                         <h1>Registro de Mascotas</h1>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="mascotas-search" placeholder="Buscar mascota...">
-                            </div>
                             <select id="mascotas-species-filter" onchange="loadMascotasTable()">
                                 <option value="">Todas las especies</option>
                                 <option value="perro">Perros</option>
@@ -231,10 +217,6 @@
                     <div class="page-header">
                         <h1>Agendamiento de Citas</h1>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="citas-search" placeholder="Buscar cita...">
-                            </div>
                             <select id="status-filter" onchange="loadAppointmentsTable()">
                                 <option value="">Todos los estados</option>
                                 <option value="Pendiente">Pendientes</option>
@@ -280,10 +262,6 @@
                     <div class="page-header">
                         <h1>Gestión de Adopciones</h1>
                         <div class="page-header-actions">
-                            <div class="search-bar">
-                                <span class="search-icon">🔍</span>
-                                <input type="text" id="adopciones-search" placeholder="Buscar adopción...">
-                            </div>
                             <select id="adopciones-status-filter" onchange="loadAdopcionesTable()">
                                 <option value="">Todos los estados</option>
                                 <option value="Disponible">Disponibles</option>
@@ -353,10 +331,6 @@
                             </div>
                             <div class="content-card-body">
                                 <div class="page-header-actions">
-                                    <div class="search-bar">
-                                        <span class="search-icon">🔍</span>
-                                        <input type="text" id="inventory-search" placeholder="Buscar medicamento...">
-                                    </div>
                                     <select id="inventory-stock-filter" onchange="loadInventoryTable()">
                                         <option value="">Todo el stock</option>
                                         <option value="bajo">Bajo stock</option>

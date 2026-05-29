@@ -1,5 +1,8 @@
 package com.ternurines.features.historial;
 
+/**
+ * Domain model representing a veterinarian user in the system.
+ */
 public class Veterinario {
     private Integer idVeterinario;
     private String nombre;

@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
+/**
+ * Data transfer object representing a request payload for tratamiento operations.
+ */
 public class TratamientoRequest {
 
     @NotNull

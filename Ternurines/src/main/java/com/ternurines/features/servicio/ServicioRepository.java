@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+/**
+ * Data repository for servicio persistence and SQL access.
+ */
 public class ServicioRepository {
 
     private final JdbcTemplate jdbcTemplate;

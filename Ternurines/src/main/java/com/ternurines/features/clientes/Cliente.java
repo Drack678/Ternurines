@@ -1,5 +1,8 @@
 package com.ternurines.features.clientes;
 
+/**
+ * Domain model for the cliente entity persisted by the application.
+ */
 public class Cliente {
     private Integer idCliente;
     private String nombre;

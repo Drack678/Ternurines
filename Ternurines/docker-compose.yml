@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   db:
     image: postgres:15-alpine
@@ -12,21 +11,38 @@ services:
       - ./src/main/resources/db:/docker-entrypoint-initdb.d:ro
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ternurines"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ternurines-network
 
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: ternurines-app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       DB_HOST: db
       DB_PORT: 5432
       DB_NAME: ternurines
       DB_USER: ternurines
       DB_PASSWORD: ternpass
+      JAVA_OPTS: "-Xmx512m -Xms256m"
     ports:
       - "8080:8080"
     restart: unless-stopped
+    networks:
+      - ternurines-network
+
+networks:
+  ternurines-network:
+    driver: bridge
 
 volumes:
   ternurines-db-data:

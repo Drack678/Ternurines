@@ -8,6 +8,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/historial")
+/**
+ * HTTP REST controller that exposes endpoints to manage historial operations.
+ */
 public class HistorialController {
 
     private final HistorialService historialService;

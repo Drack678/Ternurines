@@ -1,5 +1,8 @@
 package com.ternurines.features.historial;
 
+/**
+ * Reference DTO for a medication used in medical history.
+ */
 public class MedicamentoRef {
     private Integer idMedicamento;
     private String nombre;
