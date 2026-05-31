@@ -19,19 +19,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Controlador de operaciones transversales bajo /api/operaciones.
+ * Agrupa gestión de usuarios por rol, adopciones, reportes, finanzas y horarios disponibles.
+ */
 @RestController
 @RequestMapping("/api/operaciones")
-/**
- * HTTP REST controller that exposes endpoints to manage operations operations.
- */
 public class OperationsController {
 
     private final JdbcTemplate jdbcTemplate;
 
+    /**
+     * Construye el controlador con acceso JDBC a la base de datos.
+     *
+     * @param jdbcTemplate plantilla para ejecutar consultas SQL
+     */
     public OperationsController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Lista unificada de todos los usuarios del sistema con su rol.
+     *
+     * @return usuarios de todos los roles ordenados por rol y nombre
+     */
     @GetMapping("/usuarios")
     public ResponseEntity<List<Map<String, Object>>> usuarios() {
         return ResponseEntity.ok(jdbcTemplate.queryForList(
@@ -42,6 +53,12 @@ public class OperationsController {
                         "ORDER BY rol, nombre"));
     }
 
+    /**
+     * Crea un nuevo usuario según el rol indicado en el cuerpo de la petición.
+     *
+     * @param usuario mapa con rol y datos del usuario a registrar
+     * @return 200 si la creación fue exitosa
+     */
     @PostMapping("/usuarios")
     @Transactional
     public ResponseEntity<Void> crearUsuario(@RequestBody Map<String, Object> usuario) {
@@ -65,17 +82,37 @@ public class OperationsController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Registra un nuevo usuario; alias del endpoint de creación para registro público.
+     *
+     * @param usuario mapa con rol y datos del usuario a registrar
+     * @return 200 si la creación fue exitosa
+     */
     @PostMapping("/usuarios/registro")
     @Transactional
     public ResponseEntity<Void> registrarNuevoUsuario(@RequestBody Map<String, Object> usuario) {
         return crearUsuario(usuario);
     }
 
+    /**
+     * Obtiene los datos básicos de un usuario por rol e identificador.
+     *
+     * @param rol rol del usuario
+     * @param id  identificador del usuario
+     * @return datos del usuario o 404 si no existe
+     */
     @GetMapping("/usuarios/{rol}/{id}")
     public ResponseEntity<Map<String, Object>> usuarioIndividual(@PathVariable("rol") String rol, @PathVariable("id") int id) {
         return ResponseEntity.of(buscarUsuario(rol, id));
     }
 
+    /**
+     * Obtiene el detalle ampliado de un usuario según su rol, incluyendo citas, mascotas u otros datos relacionados.
+     *
+     * @param rol rol del usuario
+     * @param id  identificador del usuario
+     * @return detalle del usuario con información contextual, o 404 si no existe
+     */
     @GetMapping("/usuarios/{rol}/{id}/detalle")
     public ResponseEntity<Map<String, Object>> detalleUsuario(@PathVariable("rol") String rol, @PathVariable("id") int id) {
         String normalizedRol = normalizeRol(rol);
@@ -124,6 +161,14 @@ public class OperationsController {
                 "reportes", reportes().getBody()));
     }
 
+    /**
+     * Elimina un usuario de la tabla correspondiente a su rol.
+     *
+     * @param rol rol del usuario
+     * @param id  identificador del usuario
+     * @return 200 si la eliminación fue exitosa
+     * @throws IllegalArgumentException si el rol no es válido
+     */
     @DeleteMapping("/usuarios/{rol}/{id}")
     @Transactional
     public ResponseEntity<Void> borrarUsuario(@PathVariable("rol") String rol, @PathVariable("id") int id) {
@@ -137,6 +182,15 @@ public class OperationsController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Actualiza los datos de un usuario existente según su rol.
+     *
+     * @param rol     rol del usuario
+     * @param id      identificador del usuario
+     * @param usuario mapa con los campos a actualizar
+     * @return 200 si la actualización fue exitosa
+     * @throws IllegalArgumentException si el rol no es válido
+     */
     @PutMapping("/usuarios/{rol}/{id}")
     @Transactional
     public ResponseEntity<Void> actualizarUsuario(@PathVariable("rol") String rol, @PathVariable("id") int id,
@@ -159,6 +213,11 @@ public class OperationsController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Devuelve mascotas en adopción y procesos de adopción registrados.
+     *
+     * @return mapa con listas de mascotas disponibles y procesos de adopción
+     */
     @GetMapping("/adopciones")
     public ResponseEntity<Map<String, Object>> adopciones() {
         List<Map<String, Object>> mascotas = jdbcTemplate.queryForList(
@@ -170,6 +229,12 @@ public class OperationsController {
         return ResponseEntity.ok(Map.of("mascotas", mascotas, "procesos", procesos));
     }
 
+    /**
+     * Registra una nueva mascota disponible para adopción.
+     *
+     * @param mascota datos de la mascota en adopción
+     * @return 200 si la creación fue exitosa
+     */
     @PostMapping("/adopciones/mascotas")
     public ResponseEntity<Void> crearMascotaAdopcion(@RequestBody Map<String, Object> mascota) {
         jdbcTemplate.update(
@@ -180,6 +245,12 @@ public class OperationsController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Registra un proceso de adopción completo: adoptante, vínculo y cambio de estado de la mascota.
+     *
+     * @param request datos del adoptante y de la mascota adoptada
+     * @return 200 si el registro fue exitoso
+     */
     @PostMapping("/adopciones")
     @Transactional
     public ResponseEntity<Void> registrarAdopcion(@RequestBody Map<String, Object> request) {
@@ -195,12 +266,24 @@ public class OperationsController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Cambia el estado de adopción de una mascota (por ejemplo Disponible o Adoptada).
+     *
+     * @param id     identificador de la mascota en adopción
+     * @param estado nuevo estado de adopción
+     * @return 200 si la actualización fue exitosa
+     */
     @PatchMapping("/adopciones/mascotas/{id}/estado/{estado}")
     public ResponseEntity<Void> cambiarEstadoAdopcion(@PathVariable("id") int id, @PathVariable("estado") String estado) {
         jdbcTemplate.update("UPDATE mascota_adopcion SET estado_adopcion = ? WHERE id_mascota_adopcion = ?", estado, id);
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Genera reportes operativos: ocupación, clientes, mascotas y stock crítico.
+     *
+     * @return mapa con los distintos conjuntos de datos del reporte
+     */
     @GetMapping("/reportes")
     public ResponseEntity<Map<String, Object>> reportes() {
         return ResponseEntity.ok(Map.of(
@@ -210,20 +293,22 @@ public class OperationsController {
                 "stockCritico", jdbcTemplate.queryForList("SELECT nombre, stock, fecha_vencimiento FROM medicamento WHERE stock < 10 ORDER BY stock")));
     }
 
-        @GetMapping("/reportes/finanzas")
-        public ResponseEntity<Map<String, Object>> reportesFinancieros() {
-        // Ingresos totales por servicios en citas completadas
+    /**
+     * Genera reportes financieros a partir de citas completadas y servicios asociados.
+     *
+     * @return ingresos totales, ingresos por mes, promedio por cliente y servicios más rentables
+     */
+    @GetMapping("/reportes/finanzas")
+    public ResponseEntity<Map<String, Object>> reportesFinancieros() {
         Double totalIngresos = jdbcTemplate.queryForObject(
             "SELECT COALESCE(SUM(s.precio),0) FROM cita c JOIN cita_servicio cs ON c.id_cita = cs.id_cita JOIN servicio s ON cs.id_servicio = s.id_servicio WHERE c.estado = 'Completada'",
             Double.class);
 
-        // Ingresos por mes
         List<Map<String, Object>> ingresosMes = jdbcTemplate.queryForList(
             "SELECT to_char(date_trunc('month', c.fecha), 'YYYY-MM') AS mes, COALESCE(SUM(s.precio),0) AS ingresos " +
                 "FROM cita c JOIN cita_servicio cs ON c.id_cita = cs.id_cita JOIN servicio s ON cs.id_servicio = s.id_servicio " +
                 "WHERE c.estado = 'Completada' GROUP BY mes ORDER BY mes");
 
-        // Promedio de gasto por cliente (subconsulta)
         Double promedioPorCliente = jdbcTemplate.queryForObject(
             "SELECT COALESCE(AVG(cliente_total),0) FROM (" +
                 "  SELECT cl.id_cliente, COALESCE(SUM(s.precio),0) AS cliente_total " +
@@ -236,7 +321,6 @@ public class OperationsController {
                 ") sub",
             Double.class);
 
-        // Servicios mas utilizados / que generan mas ingresos
         List<Map<String, Object>> topServicios = jdbcTemplate.queryForList(
             "SELECT s.nombre, COUNT(*) AS veces, COALESCE(SUM(s.precio),0) AS ingresos " +
                 "FROM cita_servicio cs JOIN servicio s ON cs.id_servicio = s.id_servicio " +
@@ -249,8 +333,15 @@ public class OperationsController {
             "promedioPorCliente", promedioPorCliente,
             "topServicios", topServicios
         ));
-        }
+    }
 
+    /**
+     * Devuelve los horarios libres de un veterinario en una fecha, excluyendo citas no canceladas.
+     *
+     * @param veterinarioId identificador del veterinario
+     * @param fecha         fecha a consultar
+     * @return lista de horarios disponibles en formato HH:mm:ss
+     */
     @GetMapping("/horarios/{veterinarioId}/{fecha}")
     public ResponseEntity<List<String>> horariosDisponibles(@PathVariable("veterinarioId") int veterinarioId,
                                                             @PathVariable("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
@@ -261,16 +352,39 @@ public class OperationsController {
         return ResponseEntity.ok(horarios.stream().filter(hora -> !ocupados.contains(hora)).toList());
     }
 
+    /**
+     * Extrae un valor de texto del mapa y lo normaliza eliminando espacios.
+     *
+     * @param values mapa de valores de entrada
+     * @param key    clave a leer
+     * @return texto trimmeado o cadena vacía si el valor es null
+     */
     private String text(Map<String, Object> values, String key) {
         Object value = values.get(key);
         return value == null ? "" : value.toString().trim();
     }
 
+    /**
+     * Extrae un valor de texto del mapa usando un valor por defecto si está vacío.
+     *
+     * @param values   mapa de valores de entrada
+     * @param key      clave a leer
+     * @param fallback valor por defecto si el texto está en blanco
+     * @return texto leído o el fallback
+     */
     private String defaultText(Map<String, Object> values, String key, String fallback) {
         String value = text(values, key);
         return value.isBlank() ? fallback : value;
     }
 
+    /**
+     * Extrae un valor entero del mapa, aceptando números o texto parseable.
+     *
+     * @param values   mapa de valores de entrada
+     * @param key      clave a leer
+     * @param fallback valor por defecto si el valor está vacío o no es parseable
+     * @return entero leído o el fallback
+     */
     private Integer number(Map<String, Object> values, String key, int fallback) {
         Object value = values.get(key);
         if (value instanceof Number number) {
@@ -280,6 +394,14 @@ public class OperationsController {
         return text.isBlank() ? fallback : Integer.parseInt(text);
     }
 
+    /**
+     * Busca un usuario en la tabla correspondiente a su rol.
+     *
+     * @param rol rol del usuario
+     * @param id  identificador del usuario
+     * @return datos del usuario o vacío si no existe
+     * @throws IllegalArgumentException si el rol no es válido
+     */
     private Optional<Map<String, Object>> buscarUsuario(String rol, int id) {
         String sql = switch (normalizeRol(rol)) {
             case "ADMINISTRADOR" -> "SELECT id_administrador AS id, nombre, documento, telefono, correo, 'ADMINISTRADOR' AS rol, NULL AS especialidad FROM administrador WHERE id_administrador = ?";
@@ -292,6 +414,12 @@ public class OperationsController {
         return result.stream().findFirst();
     }
 
+    /**
+     * Normaliza el nombre del rol a mayúsculas sin espacios laterales.
+     *
+     * @param rol rol en cualquier formato
+     * @return rol normalizado o cadena vacía si es null
+     */
     private String normalizeRol(String rol) {
         return rol == null ? "" : rol.trim().toUpperCase();
     }

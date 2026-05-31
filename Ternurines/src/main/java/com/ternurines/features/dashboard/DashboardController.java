@@ -9,19 +9,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controlador del panel principal bajo /api/dashboard.
+ * Agrega métricas de usuarios, mascotas, citas, inventario y próximas citas.
+ */
 @RestController
 @RequestMapping("/api/dashboard")
-/**
- * HTTP REST controller that exposes endpoints to manage dashboard operations.
- */
 public class DashboardController {
 
     private final JdbcTemplate jdbcTemplate;
 
+    /**
+     * Construye el controlador con acceso JDBC a la base de datos.
+     *
+     * @param jdbcTemplate plantilla para ejecutar consultas de agregación
+     */
     public DashboardController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Devuelve el resumen consolidado con contadores y las 5 próximas citas no canceladas.
+     *
+     * @return métricas del dashboard y lista de próximas citas
+     */
     @GetMapping("/summary")
     public ResponseEntity<DashboardSummary> getSummary() {
         DashboardSummary summary = new DashboardSummary();
@@ -32,14 +43,11 @@ public class DashboardController {
                         "(SELECT COUNT(*) FROM veterinario) + " +
                         "(SELECT COUNT(*) FROM cliente), 0)", Integer.class));
 
-        // Mascotas atendidas: contar mascotas que aparecen en el historial médico
         summary.setMascotasRegistradas(jdbcTemplate.queryForObject(
                 "SELECT COALESCE(COUNT(DISTINCT id_mascota),0) FROM historial_medico", Integer.class));
 
-        // Total de citas registradas en el negocio
         summary.setCitasProgramadas(jdbcTemplate.queryForObject("SELECT COUNT(*) FROM cita", Integer.class));
 
-        // Total de medicamentos (registro por registro)
         summary.setMedicamentosEnStock(jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM medicamento", Integer.class));
 

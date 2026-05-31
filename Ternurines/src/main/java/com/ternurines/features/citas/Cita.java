@@ -6,59 +6,45 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
- * Modelo de dominio para la entidad cita persistida por la aplicación.
- * 
- * Representa una cita veterinaria con toda la información asociada, incluyendo
- * referencias a la mascota, veterinario, recepcionista y cliente involucrados.
+ * Modelo de dominio de una cita veterinaria.
+ * Incluye referencias a mascota, veterinario, recepcionista y nombres desnormalizados para la API.
  */
 public class Cita {
-    /** Identificador único de la cita */
     private Integer idCita;
-    /** Identificador de la mascota asociada a la cita */
     private Integer idMascota;
-    /** Identificador del veterinario asignado a la cita */
     private Integer idVeterinario;
-    /** Identificador del recepcionista que registró la cita */
     private Integer idRecepcionista;
-    /** Fecha en que se realiza la cita */
     private LocalDate fecha;
-    /** Hora en que se realiza la cita */
     private LocalTime hora;
-    /** Motivo o descripción de la consulta veterinaria */
     private String motivo;
-    /** Estado actual de la cita (ej: pendiente, completada, cancelada) */
     private String estado;
-    /** Nombre de la mascota */
     private String mascota;
-    /** Nombre del cliente propietario de la mascota */
     private String cliente;
-    /** Nombre del veterinario asignado */
     private String veterinario;
-    /** Nombre del recepcionista */
     private String recepcionista;
 
     /**
-     * Obtiene el identificador único de la cita.
-     * 
-     * @return el identificador de la cita
+     * Devuelve el identificador interno de la cita.
+     *
+     * @return identificador de la cita
      */
     public Integer getIdCita() {
         return idCita;
     }
 
     /**
-     * Establece el identificador único de la cita.
-     * 
-     * @param idCita el identificador a asignar
+     * Establece el identificador interno de la cita.
+     *
+     * @param idCita identificador de la cita
      */
     public void setIdCita(Integer idCita) {
         this.idCita = idCita;
     }
 
     /**
-     * Obtiene el identificador de la cita para serialización JSON.
-     * 
-     * @return el identificador de la cita
+     * Devuelve el identificador de la cita para la API JSON.
+     *
+     * @return identificador expuesto como id
      */
     @JsonProperty("id")
     public Integer getId() {
@@ -66,27 +52,27 @@ public class Cita {
     }
 
     /**
-     * Obtiene el identificador de la mascota asociada a la cita.
-     * 
-     * @return el identificador de la mascota
+     * Devuelve el identificador de la mascota asociada.
+     *
+     * @return identificador de la mascota
      */
     public Integer getIdMascota() {
         return idMascota;
     }
 
     /**
-     * Establece el identificador de la mascota asociada a la cita.
-     * 
-     * @param idMascota el identificador de la mascota a asignar
+     * Establece el identificador de la mascota asociada.
+     *
+     * @param idMascota identificador de la mascota
      */
     public void setIdMascota(Integer idMascota) {
         this.idMascota = idMascota;
     }
 
     /**
-     * Obtiene el identificador de la mascota para serialización JSON.
-     * 
-     * @return el identificador de la mascota
+     * Devuelve el identificador de la mascota para la API JSON.
+     *
+     * @return identificador expuesto como mascota_id
      */
     @JsonProperty("mascota_id")
     public Integer getMascotaId() {
@@ -94,27 +80,27 @@ public class Cita {
     }
 
     /**
-     * Obtiene el identificador del veterinario asignado a la cita.
-     * 
-     * @return el identificador del veterinario
+     * Devuelve el identificador del veterinario asignado.
+     *
+     * @return identificador del veterinario
      */
     public Integer getIdVeterinario() {
         return idVeterinario;
     }
 
     /**
-     * Establece el identificador del veterinario asignado a la cita.
-     * 
-     * @param idVeterinario el identificador del veterinario a asignar
+     * Establece el identificador del veterinario asignado.
+     *
+     * @param idVeterinario identificador del veterinario
      */
     public void setIdVeterinario(Integer idVeterinario) {
         this.idVeterinario = idVeterinario;
     }
 
     /**
-     * Obtiene el identificador del veterinario para serialización JSON.
-     * 
-     * @return el identificador del veterinario
+     * Devuelve el identificador del veterinario para la API JSON.
+     *
+     * @return identificador expuesto como veterinario_id
      */
     @JsonProperty("veterinario_id")
     public Integer getVeterinarioId() {
@@ -122,9 +108,9 @@ public class Cita {
     }
 
     /**
-     * Obtiene el identificador del recepcionista que registró la cita.
-     * 
-     * @return el identificador del recepcionista
+     * Devuelve el identificador del recepcionista que registró la cita.
+     *
+     * @return identificador del recepcionista
      */
     public Integer getIdRecepcionista() {
         return idRecepcionista;
@@ -132,17 +118,17 @@ public class Cita {
 
     /**
      * Establece el identificador del recepcionista que registró la cita.
-     * 
-     * @param idRecepcionista el identificador del recepcionista a asignar
+     *
+     * @param idRecepcionista identificador del recepcionista
      */
     public void setIdRecepcionista(Integer idRecepcionista) {
         this.idRecepcionista = idRecepcionista;
     }
 
     /**
-     * Obtiene el identificador del recepcionista para serialización JSON.
-     * 
-     * @return el identificador del recepcionista
+     * Devuelve el identificador del recepcionista para la API JSON.
+     *
+     * @return identificador expuesto como recepcionista_id
      */
     @JsonProperty("recepcionista_id")
     public Integer getRecepcionistaId() {
@@ -150,63 +136,63 @@ public class Cita {
     }
 
     /**
-     * Obtiene la fecha en que se realiza la cita.
-     * 
-     * @return la fecha de la cita
+     * Devuelve la fecha programada de la cita.
+     *
+     * @return fecha de la cita
      */
     public LocalDate getFecha() {
         return fecha;
     }
 
     /**
-     * Establece la fecha en que se realiza la cita.
-     * 
-     * @param fecha la fecha a asignar
+     * Establece la fecha programada de la cita.
+     *
+     * @param fecha fecha de la cita
      */
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
     /**
-     * Obtiene la hora en que se realiza la cita.
-     * 
-     * @return la hora de la cita
+     * Devuelve la hora programada de la cita.
+     *
+     * @return hora de la cita
      */
     public LocalTime getHora() {
         return hora;
     }
 
     /**
-     * Establece la hora en que se realiza la cita.
-     * 
-     * @param hora la hora a asignar
+     * Establece la hora programada de la cita.
+     *
+     * @param hora hora de la cita
      */
     public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
     /**
-     * Obtiene el motivo o descripción de la consulta veterinaria.
-     * 
-     * @return el motivo de la cita
+     * Devuelve el motivo de la consulta.
+     *
+     * @return motivo de la cita
      */
     public String getMotivo() {
         return motivo;
     }
 
     /**
-     * Establece el motivo o descripción de la consulta veterinaria.
-     * 
-     * @param motivo el motivo a asignar
+     * Establece el motivo de la consulta.
+     *
+     * @param motivo motivo de la cita
      */
     public void setMotivo(String motivo) {
         this.motivo = motivo;
     }
 
     /**
-     * Obtiene el estado actual de la cita.
-     * 
-     * @return el estado de la cita (ej: pendiente, completada, cancelada)
+     * Devuelve el estado actual de la cita.
+     *
+     * @return estado de la cita
      */
     public String getEstado() {
         return estado;
@@ -214,35 +200,35 @@ public class Cita {
 
     /**
      * Establece el estado actual de la cita.
-     * 
-     * @param estado el estado a asignar
+     *
+     * @param estado estado de la cita
      */
     public void setEstado(String estado) {
         this.estado = estado;
     }
 
     /**
-     * Obtiene el nombre de la mascota.
-     * 
-     * @return el nombre de la mascota
+     * Devuelve el nombre de la mascota asociada.
+     *
+     * @return nombre de la mascota
      */
     public String getMascota() {
         return mascota;
     }
 
     /**
-     * Establece el nombre de la mascota.
-     * 
-     * @param mascota el nombre de la mascota a asignar
+     * Establece el nombre de la mascota asociada.
+     *
+     * @param mascota nombre de la mascota
      */
     public void setMascota(String mascota) {
         this.mascota = mascota;
     }
 
     /**
-     * Obtiene el nombre de la mascota para serialización JSON.
-     * 
-     * @return el nombre de la mascota
+     * Devuelve el nombre de la mascota para la API JSON.
+     *
+     * @return nombre expuesto como mascota_nombre
      */
     @JsonProperty("mascota_nombre")
     public String getMascotaNombre() {
@@ -250,27 +236,27 @@ public class Cita {
     }
 
     /**
-     * Obtiene el nombre del cliente propietario de la mascota.
-     * 
-     * @return el nombre del cliente
+     * Devuelve el nombre del cliente propietario.
+     *
+     * @return nombre del cliente
      */
     public String getCliente() {
         return cliente;
     }
 
     /**
-     * Establece el nombre del cliente propietario de la mascota.
-     * 
-     * @param cliente el nombre del cliente a asignar
+     * Establece el nombre del cliente propietario.
+     *
+     * @param cliente nombre del cliente
      */
     public void setCliente(String cliente) {
         this.cliente = cliente;
     }
 
     /**
-     * Obtiene el nombre del cliente para serialización JSON.
-     * 
-     * @return el nombre del cliente
+     * Devuelve el nombre del cliente para la API JSON.
+     *
+     * @return nombre expuesto como cliente_nombre
      */
     @JsonProperty("cliente_nombre")
     public String getClienteNombre() {
@@ -278,9 +264,9 @@ public class Cita {
     }
 
     /**
-     * Obtiene el nombre del veterinario asignado.
-     * 
-     * @return el nombre del veterinario
+     * Devuelve el nombre del veterinario asignado.
+     *
+     * @return nombre del veterinario
      */
     public String getVeterinario() {
         return veterinario;
@@ -288,17 +274,17 @@ public class Cita {
 
     /**
      * Establece el nombre del veterinario asignado.
-     * 
-     * @param veterinario el nombre del veterinario a asignar
+     *
+     * @param veterinario nombre del veterinario
      */
     public void setVeterinario(String veterinario) {
         this.veterinario = veterinario;
     }
 
     /**
-     * Obtiene el nombre del veterinario para serialización JSON.
-     * 
-     * @return el nombre del veterinario
+     * Devuelve el nombre del veterinario para la API JSON.
+     *
+     * @return nombre expuesto como veterinario_nombre
      */
     @JsonProperty("veterinario_nombre")
     public String getVeterinarioNombre() {
@@ -306,27 +292,27 @@ public class Cita {
     }
 
     /**
-     * Obtiene el nombre del recepcionista.
-     * 
-     * @return el nombre del recepcionista
+     * Devuelve el nombre del recepcionista que registró la cita.
+     *
+     * @return nombre del recepcionista
      */
     public String getRecepcionista() {
         return recepcionista;
     }
 
     /**
-     * Establece el nombre del recepcionista.
-     * 
-     * @param recepcionista el nombre del recepcionista a asignar
+     * Establece el nombre del recepcionista que registró la cita.
+     *
+     * @param recepcionista nombre del recepcionista
      */
     public void setRecepcionista(String recepcionista) {
         this.recepcionista = recepcionista;
     }
 
     /**
-     * Obtiene el nombre del recepcionista para serialización JSON.
-     * 
-     * @return el nombre del recepcionista
+     * Devuelve el nombre del recepcionista para la API JSON.
+     *
+     * @return nombre expuesto como recepcionista_nombre
      */
     @JsonProperty("recepcionista_nombre")
     public String getRecepcionistaNombre() {

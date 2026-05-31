@@ -1,38 +1,38 @@
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\inventario\MedicamentoRepository.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\historial\HistorialResponse.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\historial\HistorialController.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\inventario\InventarioController.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\inventario\Producto.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\operations\OperationsController.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\auth\AuthController.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\servicio\ServicioController.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\dashboard\DashboardController.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\dashboard\DashboardSummary.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\mascotas\MascotaService.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\mascotas\MascotaController.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\clientes\ClienteRepository.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\historial\HistorialService.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\inventario\Medicamento.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\historial\HistorialMascota.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\auth\AuthService.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\citas\Cita.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\citas\CitaController.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\historial\Tratamiento.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\inventario\ProductoRepository.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\historial\Veterinario.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\clientes\Cliente.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\citas\CitaRepository.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\mascotas\Mascota.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\servicio\ServicioRepository.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\citas\CitaService.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\clientes\ClienteService.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\historial\MedicamentoRef.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\mascotas\MascotaRepository.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\servicio\Servicio.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\auth\LoginResponse.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\dashboard\DashboardCita.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\historial\HistorialRequest.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\historial\TratamientoRequest.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\TernurinesApplication.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\auth\LoginRequest.java
-C:\Users\marlo\OneDrive\Documentos\Ternurines\src\main\java\com\ternurines\features\clientes\ClienteController.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\auth\LoginResponse.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\mascotas\MascotaRepository.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\mascotas\MascotaService.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\mascotas\Mascota.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\auth\AuthService.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\citas\Cita.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\historial\TratamientoRequest.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\mascotas\MascotaController.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\inventario\MedicamentoRepository.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\auth\LoginRequest.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\dashboard\DashboardSummary.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\inventario\Producto.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\servicio\ServicioController.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\servicio\ServicioRepository.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\historial\HistorialMascota.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\historial\HistorialResponse.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\servicio\Servicio.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\auth\AuthController.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\historial\MedicamentoRef.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\clientes\Cliente.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\clientes\ClienteRepository.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\dashboard\DashboardController.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\inventario\InventarioController.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\historial\HistorialService.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\dashboard\DashboardCita.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\citas\CitaService.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\inventario\ProductoRepository.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\citas\CitaRepository.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\clientes\ClienteService.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\TernurinesApplication.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\citas\CitaController.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\historial\Tratamiento.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\operations\OperationsController.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\inventario\Medicamento.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\historial\Veterinario.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\historial\HistorialController.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\historial\HistorialRequest.java
+C:\Users\marlo\OneDrive\Documentos\Mis documentos\UD\FIS\Ternurines\Ternurines\src\main\java\com\ternurines\features\clientes\ClienteController.java

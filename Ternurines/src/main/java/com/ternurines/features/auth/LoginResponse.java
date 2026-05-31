@@ -1,23 +1,11 @@
 package com.ternurines.features.auth;
 
 /**
- * Objeto de transferencia de datos que representa la carga de respuesta
- * para operaciones de inicio de sesión (login).
+ * Respuesta devuelta tras un login exitoso con los datos del usuario autenticado.
  *
- * <p>Esta clase inmutable (record) contiene la información mínima que el
- * servidor devuelve al cliente tras un proceso de autenticación exitoso.
- *
- * Componentes:
- * <ul>
- *   <li>id: Identificador único del usuario.</li>
- *   <li>usuario: Nombre de usuario o alias.</li>
- *   <li>correo: Dirección de correo electrónico asociada al usuario.</li>
- *   <li>rol: Rol o perfil del usuario (por ejemplo: "ADMIN", "USER").</li>
- * </ul>
- *
- * @param id Identificador único del usuario.
- * @param usuario Nombre de usuario o alias.
- * @param correo Dirección de correo electrónico del usuario.
- * @param rol Rol o perfil del usuario.
+ * @param id      identificador del usuario en su tabla de rol
+ * @param usuario nombre del usuario
+ * @param correo  correo electrónico del usuario
+ * @param rol     rol asignado (ADMINISTRADOR, RECEPCIONISTA, VETERINARIO o CLIENTE)
  */
 public record LoginResponse(Integer id, String usuario, String correo, String rol) {}

@@ -3,41 +3,30 @@ package com.ternurines.features.auth;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-@Service
 /**
- * Business service layer for auth management and transactional logic.
- * 
- * Esta clase es responsable de autenticar usuarios de diferentes roles en el sistema.
- * Soporta autenticación para administradores, recepcionistas, veterinarios y clientes.
- * 
- * @author Ternurines
- * @version 1.0
+ * Servicio de autenticación.
+ * Valida credenciales contra las tablas de administrador, recepcionista, veterinario y cliente.
  */
+@Service
 public class AuthService {
 
     private final JdbcTemplate jdbcTemplate;
 
     /**
-     * Constructor que inyecta la dependencia de JdbcTemplate.
-     * 
-     * @param jdbcTemplate plantilla JDBC para ejecutar consultas a la base de datos
+     * Construye el servicio con acceso JDBC a la base de datos.
+     *
+     * @param jdbcTemplate plantilla para ejecutar consultas SQL de autenticación
      */
     public AuthService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     /**
-     * Autentica un usuario verificando sus credenciales en las diferentes tablas de roles.
-     * 
-     * Intenta autenticar al usuario en el siguiente orden:
-     * 1. Como administrador
-     * 2. Como recepcionista
-     * 3. Como veterinario
-     * 4. Como cliente
-     * 
-     * @param request objeto con las credenciales del usuario (correo y contraseña)
-     * @return LoginResponse con los datos del usuario autenticado y su rol
-     * @throws IllegalArgumentException si las credenciales son incorrectas o el usuario no existe
+     * Busca al usuario en cada rol hasta encontrar credenciales válidas.
+     *
+     * @param request solicitud con correo y contraseña
+     * @return respuesta con id, nombre, correo y rol del usuario autenticado
+     * @throws IllegalArgumentException si ningún rol coincide con las credenciales
      */
     public LoginResponse authenticate(LoginRequest request) {
         String sqlAdmin = "SELECT id_administrador AS id, nombre, correo FROM administrador WHERE correo = ? AND contrasena = ?";
@@ -53,13 +42,12 @@ public class AuthService {
     }
 
     /**
-     * Método privado que ejecuta la consulta de autenticación para un rol específico.
-     * 
-     * @param request objeto con las credenciales del usuario
-     * @param sql consulta SQL parametrizada para buscar el usuario
-     * @param role nombre del rol que se está validando
-     * @return Optional con LoginResponse si el usuario existe y sus credenciales son válidas, 
-     *         Optional vacío en caso contrario
+     * Ejecuta la consulta SQL para un rol concreto y devuelve el resultado si hay coincidencia.
+     *
+     * @param request solicitud con correo y contraseña
+     * @param sql     consulta parametrizada para el rol
+     * @param role    nombre del rol a asignar en la respuesta
+     * @return respuesta de login si las credenciales coinciden, vacío en caso contrario
      */
     private java.util.Optional<LoginResponse> authenticateUser(LoginRequest request, String sql, String role) {
         return jdbcTemplate.query(sql, new Object[]{request.correo(), request.contrasena()}, rs -> {
