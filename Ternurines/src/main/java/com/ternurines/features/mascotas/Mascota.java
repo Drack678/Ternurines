@@ -195,6 +195,6 @@ public class Mascota {
      */
     @JsonProperty("dueno_nombre")
     public String getDuenoNombre() {
-        return nombreCliente;
+        return nombreCliente != null ? nombreCliente : "";
     }
 }

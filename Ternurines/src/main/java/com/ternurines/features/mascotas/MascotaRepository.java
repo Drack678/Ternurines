@@ -30,7 +30,7 @@ public class MascotaRepository {
      */
     public List<Mascota> findAll() {
         return jdbcTemplate.query(
-                "SELECT m.*, c.nombre AS nombre_cliente FROM mascota m JOIN cliente c ON m.id_cliente = c.id_cliente ORDER BY m.nombre",
+                "SELECT m.*, c.nombre AS nombre_cliente FROM mascota m LEFT JOIN cliente c ON m.id_cliente = c.id_cliente ORDER BY m.nombre",
                 new BeanPropertyRowMapper<>(Mascota.class));
     }
 

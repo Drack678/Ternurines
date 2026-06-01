@@ -295,9 +295,26 @@ async function loadMascotasTable() {
     }
 }
 
-function openNewPetModal() {
+async function openNewPetModal() {
+    let clientes = [];
+    try {
+        clientes = await API.get('/clientes');
+    } catch (error) {
+        console.error('No se pudo cargar la lista de clientes', error);
+    }
+
+    const clienteOptions = clientes.map(cliente => `
+                <option value="${cliente.idCliente}">${cliente.nombre} ${cliente.documento ? `(${cliente.documento})` : ''}</option>`).join('');
+
     Modal.open('Registrar Mascota', `
         <form id="pet-form" class="grid">
+            <div class="form-group">
+                <label for="pet-id-cliente" class="required">Cliente propietario</label>
+                <select id="pet-id-cliente" required>
+                    <option value="">Selecciona un cliente</option>
+                    ${clienteOptions}
+                </select>
+            </div>
             <div class="form-group">
                 <label for="pet-nombre" class="required">Nombre</label>
                 <input type="text" id="pet-nombre" placeholder="Firulais">
@@ -314,10 +331,6 @@ function openNewPetModal() {
             <div class="form-group">
                 <label for="pet-raza" class="required">Raza</label>
                 <input type="text" id="pet-raza" placeholder="Labrador">
-            </div>
-            <div class="form-group">
-                <label for="pet-dueno" class="required">Dueño</label>
-                <input type="text" id="pet-dueno" placeholder="Nombre del dueño">
             </div>
             <div class="form-group">
                 <label for="pet-edad" class="required">Edad (años)</label>
@@ -337,19 +350,25 @@ function openNewPetModal() {
 async function saveNewPet() {
     try {
         const petData = {
+            idCliente: parseInt(document.getElementById('pet-id-cliente')?.value, 10) || null,
             nombre: document.getElementById('pet-nombre').value,
             especie: document.getElementById('pet-especie').value,
             raza: document.getElementById('pet-raza').value,
-            dueno_nombre: document.getElementById('pet-dueno').value,
             edad: parseFloat(document.getElementById('pet-edad').value),
             peso: parseFloat(document.getElementById('pet-peso').value)
         };
+
+        if (!petData.idCliente) {
+            Notify.error('Selecciona el cliente propietario antes de registrar la mascota.');
+            return;
+        }
 
         await API.post('/mascotas', petData);
         Modal.close();
         Notify.success('Mascota registrada exitosamente');
         loadMascotasTable();
     } catch (error) {
+        console.error('Error al registrar mascota', error);
         Notify.error('Error al registrar mascota');
     }
 }

@@ -588,9 +588,26 @@ async function saveNewUser() {
     }
 }
 
-function openNewPetModal() {
+async function openNewPetModal() {
+    let clientes = [];
+    try {
+        clientes = await API.get('/clientes');
+    } catch (error) {
+        console.error('No se pudo cargar la lista de clientes', error);
+    }
+
+    const clienteOptions = clientes.map(cliente => `
+                <option value="${cliente.idCliente}">${cliente.nombre} ${cliente.documento ? `(${cliente.documento})` : ''}</option>`).join('');
+
     Modal.open('Registrar Mascota', `
         <form id="pet-form" class="grid">
+            <div class="form-group">
+                <label for="pet-id-cliente" class="required">Cliente propietario</label>
+                <select id="pet-id-cliente" required>
+                    <option value="">Selecciona un cliente</option>
+                    ${clienteOptions}
+                </select>
+            </div>
             <div class="form-group">
                 <label for="pet-nombre" class="required">Nombre</label>
                 <input type="text" id="pet-nombre" placeholder="Firulais">
@@ -626,6 +643,7 @@ function openNewPetModal() {
 async function saveNewPet() {
     try {
         const petData = {
+            idCliente: parseInt(document.getElementById('pet-id-cliente')?.value, 10) || null,
             nombre: document.getElementById('pet-nombre').value,
             especie: document.getElementById('pet-especie').value,
             raza: document.getElementById('pet-raza').value,
@@ -633,11 +651,17 @@ async function saveNewPet() {
             peso: parseFloat(document.getElementById('pet-peso').value)
         };
 
+        if (!petData.idCliente) {
+            Notify.error('Selecciona el cliente propietario antes de registrar la mascota.');
+            return;
+        }
+
         await API.post('/mascotas', petData);
         Modal.close();
         Notify.success('Mascota registrada exitosamente');
         loadMascotasTable();
     } catch (error) {
+        console.error('Error al registrar mascota', error);
         Notify.error('Error al registrar mascota');
     }
 }
