@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.ternurines.features.citas.CitaControllerTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.224 s -- in com.ternurines.features.citas.CitaControllerTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.631 s -- in com.ternurines.features.citas.CitaControllerTest

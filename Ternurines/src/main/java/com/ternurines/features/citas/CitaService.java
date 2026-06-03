@@ -40,6 +40,10 @@ public class CitaService {
      */
     @Transactional
     public void create(Cita cita) {
+        validateCita(cita);
+        if (cita.getEstado() == null || cita.getEstado().isBlank()) {
+            cita.setEstado("Pendiente");
+        }
         if (!repository.isVeterinarioDisponible(cita)) {
             throw new IllegalArgumentException("El veterinario no tiene disponibilidad en ese horario");
         }
@@ -56,10 +60,25 @@ public class CitaService {
     @Transactional
     public void update(int id, Cita cita) {
         cita.setIdCita(id);
+        validateCita(cita);
+        if (cita.getEstado() == null || cita.getEstado().isBlank()) {
+            cita.setEstado("Pendiente");
+        }
         if (!repository.isVeterinarioDisponible(cita)) {
             throw new IllegalArgumentException("El veterinario no tiene disponibilidad en ese horario");
         }
         repository.update(cita);
+    }
+
+    private void validateCita(Cita cita) {
+        if (cita == null
+                || cita.getIdMascota() == null
+                || cita.getIdVeterinario() == null
+                || cita.getIdRecepcionista() == null
+                || cita.getFecha() == null
+                || cita.getHora() == null) {
+            throw new IllegalArgumentException("Todos los campos de la cita son obligatorios.");
+        }
     }
 
     /**

@@ -472,10 +472,14 @@ function bindForms() {
         citaForm.addEventListener('submit', async event => {
             event.preventDefault();
             const payload = numericPayload(['idMascota', 'idVeterinario', 'idRecepcionista'])(formPayload(citaForm));
-            await api('/api/citas', { method: 'POST', body: JSON.stringify(payload) });
-            setStatus('#citaStatus', 'Cita registrada correctamente.');
-            citaForm.reset();
-            await Promise.all([loadCitas(), loadDashboard(), loadReportes()]);
+            try {
+                await api('/api/citas', { method: 'POST', body: JSON.stringify(payload) });
+                setStatus('#citaStatus', 'Cita registrada correctamente.');
+                citaForm.reset();
+                await Promise.all([loadCitas(), loadDashboard(), loadReportes()]);
+            } catch (error) {
+                setStatus('#citaStatus', error.message || 'No se pudo registrar la cita.');
+            }
         });
         ['#citaVeterinarioSelect', '#citaFecha'].forEach(selector => {
             const field = document.querySelector(selector);
@@ -506,10 +510,18 @@ function bindJsonForm(selector, endpoint, afterSave, statusSelector, mapper = pa
             }
         }
         const method = id ? 'PUT' : 'POST';
-        await api(url, { method, body: JSON.stringify(payload) });
-        if (statusSelector) setStatus(statusSelector, id ? 'Registro actualizado correctamente.' : 'Registro guardado correctamente.');
-        resetEditForm(form);
-        await afterSave();
+        try {
+            await api(url, { method, body: JSON.stringify(payload) });
+            if (statusSelector) setStatus(statusSelector, id ? 'Registro actualizado correctamente.' : 'Registro guardado correctamente.');
+            resetEditForm(form);
+            await afterSave();
+        } catch (error) {
+            if (statusSelector) {
+                setStatus(statusSelector, error.message || 'No se pudo guardar el registro.');
+            } else {
+                console.error(error);
+            }
+        }
     });
 }
 
@@ -563,9 +575,26 @@ async function loadHorariosCita() {
     const vet = document.querySelector('#citaVeterinarioSelect')?.value;
     const fecha = document.querySelector('#citaFecha')?.value;
     const select = document.querySelector('#citaHoraSelect');
-    if (!vet || !fecha || !select) return;
-    const horarios = await api(`/api/operaciones/horarios/${vet}/${fecha}`);
-    select.innerHTML = horarios.map(hora => `<option value="${hora}">${hora.slice(0, 5)}</option>`).join('');
+    if (!select) return;
+    if (!vet || !fecha) {
+        select.innerHTML = '<option value="">Selecciona veterinario y fecha</option>';
+        select.disabled = true;
+        return;
+    }
+    try {
+        const horarios = await api(`/api/operaciones/horarios/${vet}/${fecha}`);
+        if (!horarios.length) {
+            select.innerHTML = '<option value="">No hay horarios disponibles</option>';
+            select.disabled = true;
+            return;
+        }
+        select.disabled = false;
+        select.innerHTML = horarios.map(hora => `<option value="${hora}">${hora.slice(0, 5)}</option>`).join('');
+    } catch (error) {
+        select.innerHTML = '<option value="">Error cargando horarios</option>';
+        select.disabled = true;
+        console.error(error);
+    }
 }
 
 function initHistorialModule() {

@@ -237,9 +237,18 @@ public class OperationsController {
      */
     @PostMapping("/adopciones/mascotas")
     public ResponseEntity<Void> crearMascotaAdopcion(@RequestBody Map<String, Object> mascota) {
+        int recepcionistaId = number(mascota, "idRecepcionista", -1);
+        if (recepcionistaId <= 0) {
+            throw new IllegalArgumentException("Seleccione un recepcionista valido para registrar la mascota en adopcion.");
+        }
+        String nombreMascota = text(mascota, "nombre");
+        if (nombreMascota.isBlank()) {
+            throw new IllegalArgumentException("El nombre de la mascota es obligatorio.");
+        }
+
         jdbcTemplate.update(
                 "INSERT INTO mascota_adopcion (id_recepcionista, nombre, especie, raza, edad, estado_salud, estado_adopcion, fecha_ingreso) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                number(mascota, "idRecepcionista", 1), text(mascota, "nombre"), text(mascota, "especie"), text(mascota, "raza"),
+                recepcionistaId, nombreMascota, text(mascota, "especie"), text(mascota, "raza"),
                 number(mascota, "edad", 0), text(mascota, "estadoSalud"), defaultText(mascota, "estadoAdopcion", "Disponible"),
                 LocalDate.parse(defaultText(mascota, "fechaIngreso", LocalDate.now().toString())));
         return ResponseEntity.ok().build();
@@ -254,15 +263,41 @@ public class OperationsController {
     @PostMapping("/adopciones")
     @Transactional
     public ResponseEntity<Void> registrarAdopcion(@RequestBody Map<String, Object> request) {
+        int mascotaAdopcionId = number(request, "idMascotaAdopcion", -1);
+        if (mascotaAdopcionId <= 0) {
+            throw new IllegalArgumentException("Seleccione una mascota valida para la adopcion.");
+        }
+
+        String nombreAdoptante = text(request, "nombre");
+        String documento = text(request, "documento");
+        if (nombreAdoptante.isBlank() || documento.isBlank()) {
+            throw new IllegalArgumentException("El nombre y documento del adoptante son obligatorios.");
+        }
+
+        var estados = jdbcTemplate.queryForList(
+                "SELECT estado_adopcion FROM mascota_adopcion WHERE id_mascota_adopcion = ?",
+                String.class, mascotaAdopcionId);
+        if (estados.isEmpty()) {
+            throw new IllegalArgumentException("Mascota en adopcion no encontrada.");
+        }
+        String estadoActual = estados.get(0);
+        if ("Adoptada".equalsIgnoreCase(estadoActual)) {
+            throw new IllegalArgumentException("La mascota ya fue adoptada.");
+        }
+
         Integer adoptanteId = jdbcTemplate.query(
                 "INSERT INTO adoptante (nombre, documento, telefono, direccion, correo) VALUES (?, ?, ?, ?, ?) RETURNING id_adoptante",
                 rs -> rs.next() ? rs.getInt("id_adoptante") : null,
-                text(request, "nombre"), text(request, "documento"), text(request, "telefono"), text(request, "direccion"), text(request, "correo"));
+                nombreAdoptante, documento, text(request, "telefono"), text(request, "direccion"), text(request, "correo"));
+        if (adoptanteId == null) {
+            throw new IllegalStateException("No se pudo crear el adoptante.");
+        }
+
         jdbcTemplate.update("INSERT INTO adopcion (id_adoptante, id_mascota_adopcion, fecha_adopcion) VALUES (?, ?, ?)",
-                adoptanteId, number(request, "idMascotaAdopcion", 0),
+                adoptanteId, mascotaAdopcionId,
                 LocalDate.parse(defaultText(request, "fechaAdopcion", LocalDate.now().toString())));
         jdbcTemplate.update("UPDATE mascota_adopcion SET estado_adopcion = 'Adoptada' WHERE id_mascota_adopcion = ?",
-                number(request, "idMascotaAdopcion", 0));
+                mascotaAdopcionId);
         return ResponseEntity.ok().build();
     }
 
